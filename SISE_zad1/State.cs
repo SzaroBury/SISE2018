@@ -13,13 +13,14 @@ namespace SISE_zad1
         private char translation;
         private State previous;
         private Board board;
-        //private string order;
 
-        public State Previous { get => previous; private set => previous = value; }
+        public State Previous { get => previous; protected set => previous = value; }
         public char Translation { get => translation; private set => translation = value; }
         public Board Board { get => board; set => board = value; }
         public int EmptyID { get => emptyID; set => emptyID = value; }
         public byte[] ByteState { get => byteState; set => byteState = value; }
+
+        public State() { }
 
         public State(State state)
         {
