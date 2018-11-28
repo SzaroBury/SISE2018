@@ -13,7 +13,7 @@ namespace SISE_zad1
             int chosenStartegy = 1;
             string OrderOfSearching = "LRUD";
             //string Heuristic = "hamm";
-            string startFilePath = "C:\\Users\\SzaroBury\\Desktop\\V sem\\SISE\\SISE_zad1\\WIKAMP_APPS\\4x4_01_00001.txt";
+            string startFilePath = "E:\\Studia\\SISE\\SISE2018\\WIKAMP_APPS\\4x4_01_00001.txt";
             string solutionFileName = "solution.txt";
             //string infoFileName = "info.txt";
             Board board = new Board(startFilePath);

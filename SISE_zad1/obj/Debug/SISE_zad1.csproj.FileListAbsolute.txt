@@ -1,0 +1,7 @@
+E:\Studia\SISE\SISE2018\SISE_zad1\bin\Debug\SISE_zad1.exe.config
+E:\Studia\SISE\SISE2018\SISE_zad1\bin\Debug\SISE_zad1.exe
+E:\Studia\SISE\SISE2018\SISE_zad1\bin\Debug\SISE_zad1.pdb
+E:\Studia\SISE\SISE2018\SISE_zad1\obj\Debug\SISE_zad1.csprojAssemblyReference.cache
+E:\Studia\SISE\SISE2018\SISE_zad1\obj\Debug\SISE_zad1.csproj.CoreCompileInputs.cache
+E:\Studia\SISE\SISE2018\SISE_zad1\obj\Debug\SISE_zad1.exe
+E:\Studia\SISE\SISE2018\SISE_zad1\obj\Debug\SISE_zad1.pdb
