@@ -21,23 +21,83 @@ namespace SISE_zad1
         {
             board = b;
         }
-        public void Astar (AstarState st)
+        public void Astar (AstarState state)
         {
             Q.Clear();
             S.Clear();
-            Q.Enqueue(st);
+            Q.Enqueue(state);
             AstarState s;
             AstarState nastepnyStan;
             while(Q.Count != 0)
             {
                 s = Q.Dequeue();
-                if (s.iscel())
+                if (s.isSolved())
                 {
                     goal = s;
                     break;
                 }
+                if (S.Contains(s))
+                    continue;
+                S.Add(s);
             }
-            
+            nastepnyStan = AstarState.Up(s);
+            if(nastepnyStan !=null && S.Contains(nastepnyStan))
+            {
+                Q.Enqueue(nastepnyStan);
+                passedNodes = passedNodes + 1;
+            }
+            nastepnyStan = AstarState.Down(s);
+            if (nastepnyStan != null && S.Contains(nastepnyStan))
+            {
+                Q.Enqueue(nastepnyStan);
+                passedNodes = passedNodes + 1;
+            }
+            nastepnyStan = AstarState.Left(s);
+            if (nastepnyStan != null && S.Contains(nastepnyStan))
+            {
+                Q.Enqueue(nastepnyStan);
+                passedNodes = passedNodes + 1;
+            }
+            nastepnyStan = AstarState.Right(s);
+            if (nastepnyStan != null && S.Contains(nastepnyStan))
+            {
+                Q.Enqueue(nastepnyStan);
+                passedNodes = passedNodes + 1;
+            }
+
+        }
+        public string Solve (string Order, int Heurystyka)
+        {
+            long startTime = Environment.TickCount;
+            AstarState s = new AstarState(board);
+            Astar(board, Heurystyka);
+            time = Environment.TickCount - startTime;
+            return ToSolution();
+        }
+        public string ToSolution()
+        {
+            AstarState current = goal, parent;
+            StringBuilder result = new StringBuilder();
+            now = new List<AstarState>();
+            while (true)
+            {
+                now.Add(current);
+                parent = current.Previous;
+                if (parent == null)
+                    break;
+                result.Append(current.Translation);
+                current = parent;
+            }
+            for (int i = now.Count - 1; i >= 0; i--)
+                Console.Write(now[i]);
+            Console.WriteLine("\nPassed nodes: " + passedNodes);
+            return Reverse(result.ToString());
+        }
+        public string Reverse (string s)
+        {
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
         }
     }
 }
