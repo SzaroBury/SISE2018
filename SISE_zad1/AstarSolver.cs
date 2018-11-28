@@ -26,9 +26,9 @@ namespace SISE_zad1
             Q.Clear();
             S.Clear();
             Q.Enqueue(state);
-            AstarState s;
+            AstarState s = new AstarState();
             AstarState nastepnyStan;
-            while(Q.Count != 0)
+            while (Q.Count != 0)
             {
                 s = Q.Dequeue();
                 if (s.isSolved())
@@ -70,7 +70,7 @@ namespace SISE_zad1
         {
             long startTime = Environment.TickCount;
             AstarState s = new AstarState(board);
-            Astar(board, Heurystyka);
+            Astar(new AstarState(board));
             time = Environment.TickCount - startTime;
             return ToSolution();
         }
@@ -82,7 +82,7 @@ namespace SISE_zad1
             while (true)
             {
                 now.Add(current);
-                parent = current.Previous;
+                parent = (AstarState) current.Previous;
                 if (parent == null)
                     break;
                 result.Append(current.Translation);

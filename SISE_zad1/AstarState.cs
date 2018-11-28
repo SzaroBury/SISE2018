@@ -12,6 +12,10 @@ namespace SISE_zad1
         private int h;
         private int Heurystyka;
 
+        public AstarState()
+        {
+
+        }
         private int H { get => h; set => h = value; }
         public int f()
         {
