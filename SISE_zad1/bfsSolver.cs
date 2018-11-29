@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace SISE_zad1
@@ -8,13 +9,13 @@ namespace SISE_zad1
     {
         private Board board;
         private State goal;
-        private long time;
+        private TimeSpan time;
         private List<State> now;
         private int passedNodes = 0;
         private HashSet<State> S = new HashSet<State>();
         private Queue<State> q = new Queue<State>();
 
-        public long Time { get => time; private set => time = value; }
+        public TimeSpan Time { get => time; private set => time = value; }
 
         public bfsSolver(Board board)
         {
@@ -108,12 +109,16 @@ namespace SISE_zad1
         //    return CaleRozwiazanie();
         //}
 
-        public string Solve(string Order, Board board)
+        public string Solve(string Order)
         {
-            long startTime = Environment.TickCount;
             State s = new State(board);
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
             bfs(s, Order);
-            Time = Environment.TickCount - startTime;
+            stopwatch.Stop();
+
+            Time = stopwatch.Elapsed;
             return ToSolution();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,34 +11,74 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            int chosenStartegy = 1;
-            string OrderOfSearching = "LRUD";
-            //string Heuristic = "hamm";
-            string startFilePath = "E:\\Studia\\SISE\\SISE2018\\WIKAMP_APPS\\4x4_01_00001.txt";
+            string chosenStartegy = "dfs";
+            string additionalParameter = "LRUD";
+            string boardFileName = "4x4_01_00001.txt";
             string solutionFileName = "solution.txt";
-            //string infoFileName = "info.txt";
-            Board board = new Board(startFilePath);
+            string infoFileName = "info.txt";
+            string directoryOfProgram = Directory.GetCurrentDirectory();
+            bool sortInFolders = true;
+
+            args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
+
+            if (args.Length > 0)
+            {
+                if (args[0] == "bfs" || args[0] == "dfs" || args[0] == "astr") { chosenStartegy = args[0]; Console.WriteLine("Chosen strategy: " + chosenStartegy); }
+                else { Console.WriteLine("First arg error"); Console.ReadKey(); return; }
+
+                if (args[1] == "hamm" || args[1] == "manh" ||
+                    (args[1].Contains("L") && args[1].Contains("R") && args[1].Contains("U") && args[1].Contains("D") && args[1].Length == 4))
+                        { additionalParameter = args[1]; Console.WriteLine("Additional parameter: " + additionalParameter); }
+                else { Console.WriteLine("Second arg error"); Console.ReadKey(); return; }
+
+                if (File.Exists(directoryOfProgram + "\\" + args[2])) { boardFileName = directoryOfProgram + "\\" + args[2]; Console.WriteLine("Start file path: " + boardFileName); }
+                else { Console.WriteLine("Third arg error: " + directoryOfProgram + "\\" + args[2]); Console.ReadKey(); return; }
+
+                if (!File.Exists(directoryOfProgram + "\\" + args[3])) { solutionFileName = args[3]; Console.WriteLine("Solution saving path: " + solutionFileName); }
+                else { Console.WriteLine("Fourth arg error: " + directoryOfProgram + "\\" + args[3]); Console.ReadKey(); return; }
+
+                if (!File.Exists(directoryOfProgram + "\\" + args[4])) { infoFileName = args[4]; Console.WriteLine("Additional info path: " + infoFileName); }
+                else { Console.WriteLine("Fivth arg error: " + directoryOfProgram + "\\" + args[4]); Console.ReadKey(); return; }
+
+                Console.ReadKey();
+            }    
+            else
+            {
+                Console.WriteLine("Syntax error");
+                Console.ReadKey();
+                return;
+            }
+            Board board = new Board(boardFileName);
             switch (chosenStartegy)
             {
-                case 1:
+                case "bfs":
                     {
-                        Console.WriteLine("Breadth First Searching");
-                        Console.Write("Order: " + OrderOfSearching + Environment.NewLine);
+                        Console.WriteLine("Breadth first searching");
+                        Console.WriteLine("Order: " + additionalParameter);
 
                         bfsSolver solver = new bfsSolver(board);
-                        Solution.NewSolution(solver.Solve(OrderOfSearching, board), solver.Time, solutionFileName);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.Time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
-                case 2:
+                case "dfs":
                     {
-                        Console.WriteLine("Depth First Searching");
-                        Console.Write("Order: " + OrderOfSearching + Environment.NewLine);
+                        Console.WriteLine("Depth first searching");
+                        Console.WriteLine("Order: " + additionalParameter);
 
                         dfsSolver solver = new dfsSolver(board);
-                        Solution.NewSolution(solver.Solve2(OrderOfSearching, board), solver.time, solutionFileName);
+                        Solution.NewSolution(solver.Solve2(additionalParameter), solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
-                    
+                case "astr":
+                    {
+                        Console.WriteLine("A* search algorithm");
+                        Console.WriteLine("Heuristic: " + additionalParameter);
+
+                        AstarSolver solver = new AstarSolver(board);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        break;
+                    }
+
             }
             Console.ReadKey();
         }

@@ -10,7 +10,7 @@ namespace SISE_zad1
     {
         int g;
         private int h;
-        private int Heurystyka;
+        private string heuristic;
 
         public AstarState()
         {
@@ -22,19 +22,18 @@ namespace SISE_zad1
             return H + g;
         }
 
-        public AstarState(AstarState state)
+        public AstarState(AstarState state, string h)
         {
             Previous = state;
             Board = state.Board;
             EmptyID = state.EmptyID;
             ByteState = new byte[state.Board.Height * state.Board.Width];
             for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
-            {
                 ByteState[i] = state.ByteState[i];
-            }
+            heuristic = h;
         }
 
-        public AstarState(Board board)
+        public AstarState(Board board, string h)
         {
             this.Board = board;
             EmptyID = board.EmptyId;
@@ -42,9 +41,10 @@ namespace SISE_zad1
             ByteState = new byte[board.Height * board.Width];
             for (int i = 0; i < board.Height * board.Height; i++)
                 ByteState[i] = board.Input[i];
+            heuristic = h;
         }
 
-        public int Heurystyka1()
+        public int HammingHeuristic()
         {
             int result = 0;
             for (int i = 0; i < Board.Height * Board.Width; i++)
@@ -52,7 +52,7 @@ namespace SISE_zad1
             return result;
         }
 
-        public int Heurystyka2()
+        public int ManhattanHeuristic()
         {
             int result = 0;
             for (int i = 0; i < Board.Height * Board.Width; i++)
@@ -68,12 +68,12 @@ namespace SISE_zad1
             return result;
         }
 
-        public int FindH()
+        public int Heuristic()
         {
-            if (Heurystyka == 1)
-                return Heurystyka1();
+            if (heuristic == "hamm")
+                return HammingHeuristic();
             else
-                return Heurystyka2();
+                return ManhattanHeuristic();
         }
 
         public static AstarState Up(AstarState oldState)
@@ -82,7 +82,7 @@ namespace SISE_zad1
             if ( res !=null)
             {
                 res.g = oldState.g + 1;
-                res.H = res.FindH();
+                res.H = res.Heuristic();
             }
             return res;
         }
@@ -92,7 +92,7 @@ namespace SISE_zad1
             if (res != null)
             {
                 res.g = oldState.g + 1;
-                res.H = res.FindH();
+                res.H = res.Heuristic();
             }
             return res;
         }
@@ -102,7 +102,7 @@ namespace SISE_zad1
             if (res != null)
             {
                 res.g = oldState.g + 1;
-                res.H = res.FindH();
+                res.H = res.Heuristic();
             }
             return res;
         }
@@ -112,7 +112,7 @@ namespace SISE_zad1
             if (res != null)
             {
                 res.g = oldState.g + 1;
-                res.H = res.FindH();
+                res.H = res.Heuristic();
             }
             return res;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace SISE_zad1
     {
         private Board board;
         private AstarState goal;
-        public long time;
+        public TimeSpan time;
         private List<AstarState> now;
         private int passedNodes = 0;
         public static int maxDepth = 30;
@@ -21,6 +22,7 @@ namespace SISE_zad1
         {
             board = b;
         }
+
         public void Astar (AstarState state)
         {
             Q.Clear();
@@ -66,12 +68,16 @@ namespace SISE_zad1
             }
 
         }
-        public string Solve (string Order, int Heurystyka)
+        public string Solve (string heuristic)
         {
-            long startTime = Environment.TickCount;
-            AstarState s = new AstarState(board);
-            Astar(new AstarState(board));
-            time = Environment.TickCount - startTime;
+            Stopwatch stopwatch = new Stopwatch();
+            AstarState s = new AstarState(board, heuristic);
+
+            stopwatch.Start();
+            Astar(s);
+            stopwatch.Stop();
+
+            time = stopwatch.Elapsed;
             return ToSolution();
         }
         public string ToSolution()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace SISE_zad1
     {
         private Board board;
         private State goal;
-        public long time;
+        public TimeSpan time;
         private int passedNodes = 0;
         private List<State> now;
         private HashSet<State> S = new HashSet<State>();
@@ -99,23 +100,29 @@ namespace SISE_zad1
 
         public string Solve(string Order, Board board)
         {
-            long startTime = Environment.TickCount;
+            Stopwatch stopwatch = new Stopwatch();
             goal = null;
             State s = new State(board);
-            iteracyjnePoglebienie(s, maxDepth, Order);
 
-            time = Environment.TickCount - startTime;
+            stopwatch.Start();
+            iteracyjnePoglebienie(s, maxDepth, Order);
+            stopwatch.Stop();
+
+            time = stopwatch.Elapsed;
             return ToSolution();
         }
 
-        public string Solve2(string Order, Board board)
+        public string Solve2(string Order)
         {
-            long startTime = Environment.TickCount;
+            Stopwatch stopwatch = new Stopwatch();
             goal = null;
             State s = new State(board);
-            dfsid(s, maxDepth, Order);
 
-            time = Environment.TickCount - startTime;
+            stopwatch.Start();
+            dfsid(s, maxDepth, Order);
+            stopwatch.Stop();
+
+            time = stopwatch.Elapsed;
             return ToSolution();
         }
 
