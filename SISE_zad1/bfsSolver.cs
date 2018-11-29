@@ -28,7 +28,7 @@ namespace SISE_zad1
             q.Clear();
             S.Add(state);
             q.Enqueue(state);
-            State nextState;
+            State newState;
             while (q.Count != 0)
             {
                 passedNodes++;
@@ -47,49 +47,49 @@ namespace SISE_zad1
                     {
                         case 'U':
                             Console.WriteLine("U");
-                            nextState = State.Up(state);
-                            if (nextState != null && !S.Contains(nextState))
+                            newState = State.Up(state);
+                            if (newState != null && !S.Contains(newState))
                             {
-                                S.Add(nextState);
-                                q.Enqueue(nextState);
+                                S.Add(newState);
+                                q.Enqueue(newState);
                                 passedNodes++;
-                                Console.Write(nextState.ToString());
+                                Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
                             break;
                         case 'D':
                             Console.WriteLine("D");
-                            nextState = State.Down(state);
-                            if (nextState != null && !S.Contains(nextState))
+                            newState = State.Down(state);
+                            if (newState != null && !S.Contains(newState))
                             {
-                                S.Add(nextState);
-                                q.Enqueue(nextState);
+                                S.Add(newState);
+                                q.Enqueue(newState);
                                 passedNodes++;
-                                Console.Write(nextState.ToString());
+                                Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
                             break;
                         case 'L':
                             Console.WriteLine("L");
-                            nextState = State.Left(state);
-                            if (nextState != null && !S.Contains(nextState))
+                            newState = State.Left(state);
+                            if (newState != null && !S.Contains(newState))
                             {
-                                S.Add(nextState);
-                                q.Enqueue(nextState);
+                                S.Add(newState);
+                                q.Enqueue(newState);
                                 passedNodes++;
-                                Console.Write(nextState.ToString());
+                                Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
                             break;
                         case 'R':
                             Console.WriteLine("R");
-                            nextState = State.Right(state);
-                            if (nextState != null && !S.Contains(nextState))
+                            newState = State.Right(state);
+                            if (newState != null && !S.Contains(newState))
                             {
-                                S.Add(nextState);
-                                q.Enqueue(nextState);
+                                S.Add(newState);
+                                q.Enqueue(newState);
                                 passedNodes++;
-                                Console.Write(nextState.ToString());
+                                Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
                             break;

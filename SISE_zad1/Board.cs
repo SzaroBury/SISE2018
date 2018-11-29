@@ -20,6 +20,7 @@ namespace SISE_zad1
         public int Width { get => width; private set => width = value; }
         public int EmptyId { get => emptyId; set => emptyId = value; }
 
+        public Board() { }
 
         public Board(int height, int width, byte[] board)
         {

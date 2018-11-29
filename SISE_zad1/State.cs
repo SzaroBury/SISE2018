@@ -15,7 +15,7 @@ namespace SISE_zad1
         private Board board;
 
         public State Previous { get => previous; protected set => previous = value; }
-        public char Translation { get => translation; private set => translation = value; }
+        public char Translation { get => translation; protected set => translation = value; }
         public Board Board { get => board; set => board = value; }
         public int EmptyID { get => emptyID; set => emptyID = value; }
         public byte[] ByteState { get => byteState; set => byteState = value; }

@@ -8,34 +8,52 @@ namespace SISE_zad1
 {
     public class AstarState : State
     {
-        int g;
+        private int g;
         private int h;
-        private string heuristic;
+        private static string heuristic;
+        private AstarState previous;
 
-        public AstarState()
-        {
-
-        }
         private int H { get => h; set => h = value; }
+        public AstarState Previous1 { get => previous; set => previous = value; }
+
         public int f()
         {
             return H + g;
         }
 
-        public AstarState(AstarState state, string h)
+        public AstarState() {  }
+
+        public AstarState(State state, string h)
         {
-            Previous = state;
+            if(state.Previous!=null)
+                Previous = state.Previous;
             Board = state.Board;
             EmptyID = state.EmptyID;
+            Translation = state.Translation;
             ByteState = new byte[state.Board.Height * state.Board.Width];
             for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
                 ByteState[i] = state.ByteState[i];
             heuristic = h;
         }
 
-        public AstarState(Board board, string h)
+        //public static AstarState CopyState(State state, string h)
+        //{
+        //    AstarState result = new AstarState();
+        //    if (state.Previous == null) result.Previous1 = null;
+        //    else result.Previous1 = CopyState(state, h);
+        //    result.Board = state.Board;
+        //    result.EmptyID = state.EmptyID;
+        //    result.Translation = state.Translation;
+        //    result.ByteState = new byte[state.Board.Height * state.Board.Width];
+        //    for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
+        //        result.ByteState[i] = state.ByteState[i];
+        //    //result.heuristic = h;
+        //    return result;
+        //}
+
+        public AstarState(Board board, string h) 
         {
-            this.Board = board;
+            Board = board;
             EmptyID = board.EmptyId;
 
             ByteState = new byte[board.Height * board.Width];
@@ -44,17 +62,20 @@ namespace SISE_zad1
             heuristic = h;
         }
 
+        #region Heuristics
+
         public int HammingHeuristic()
         {
-            int result = 0;
+            int resultult = 0;
             for (int i = 0; i < Board.Height * Board.Width; i++)
-                if (ByteState[i] != Board.Goal[i])  result++;
-            return result;
+                if (ByteState[i] != Board.Goal[i])  resultult++;
+            return resultult;
         }
+        
 
         public int ManhattanHeuristic()
         {
-            int result = 0;
+            int resultult = 0;
             for (int i = 0; i < Board.Height * Board.Width; i++)
             {
                 int d = ByteState[i] - 1;
@@ -62,10 +83,10 @@ namespace SISE_zad1
                     y1 = i % Board.Height,
                     x2 = d / Board.Width,
                     y2 = d % Board.Height;
-                result += Math.Abs(x2 - x1);
-                result += Math.Abs(y2 - y1);
+                resultult += Math.Abs(x2 - x1);
+                resultult += Math.Abs(y2 - y1);
             }
-            return result;
+            return resultult;
         }
 
         public int Heuristic()
@@ -75,47 +96,71 @@ namespace SISE_zad1
             else
                 return ManhattanHeuristic();
         }
+        #endregion
+
+        #region UpDownLeftRight
 
         public static AstarState Up(AstarState oldState)
         {
-            AstarState res = (AstarState)State.Up(oldState);
-            if ( res !=null)
+            State temp = State.Up(oldState);
+            AstarState newState = null;
+            if (temp != null)
             {
-                res.g = oldState.g + 1;
-                res.H = res.Heuristic();
+                newState = new AstarState(temp, heuristic)
+                {
+                    Previous1 = oldState,
+                    g = oldState.g + 1, 
+                };
+                newState.H = newState.Heuristic();
             }
-            return res;
+            return newState;
         }
         public static AstarState Down(AstarState oldState)
         {
-            AstarState res = (AstarState)State.Down(oldState);
-            if (res != null)
+            State temp = State.Down(oldState);
+            AstarState newState = null;
+            if (temp != null)
             {
-                res.g = oldState.g + 1;
-                res.H = res.Heuristic();
+                newState = new AstarState(temp, heuristic)
+                {
+                    Previous1 = oldState,
+                    g = oldState.g + 1,
+                };
+                newState.H = newState.Heuristic();
             }
-            return res;
+            return newState;
         }
         public static AstarState Left(AstarState oldState)
         {
-            AstarState res = (AstarState)State.Left(oldState);
-            if (res != null)
+            State temp = State.Left(oldState);
+            AstarState newState = null;
+            if (temp != null)
             {
-                res.g = oldState.g + 1;
-                res.H = res.Heuristic();
+                newState = new AstarState(temp, heuristic)
+                {
+                    Previous1 = oldState,
+                    g = oldState.g + 1,
+                };
+                newState.H = newState.Heuristic();
             }
-            return res;
+            return newState;
         }
         public static AstarState Right(AstarState oldState)
         {
-            AstarState res = (AstarState)State.Right(oldState);
-            if (res != null)
+            State temp = State.Right(oldState);
+            AstarState newState = null;
+            if (temp != null)
             {
-                res.g = oldState.g + 1;
-                res.H = res.Heuristic();
+                newState = new AstarState(temp, heuristic)
+                {
+                    Previous1 = oldState,
+                    g = oldState.g + 1,
+                };
+                newState.H = newState.Heuristic();
             }
-            return res;
+            return newState;
         }
+        #endregion
 
         public int CompareTo(AstarState stan)
         {

@@ -23,13 +23,12 @@ namespace SISE_zad1
             board = b;
         }
 
-        public void Astar (AstarState state)
+        public void Astar(AstarState state)
         {
             Q.Clear();
             S.Clear();
             Q.Enqueue(state);
-            AstarState s = new AstarState();
-            AstarState nastepnyStan;
+            AstarState s, newState;
             while (Q.Count != 0)
             {
                 s = Q.Dequeue();
@@ -41,34 +40,35 @@ namespace SISE_zad1
                 if (S.Contains(s))
                     continue;
                 S.Add(s);
-            }
-            nastepnyStan = AstarState.Up(s);
-            if(nastepnyStan !=null && S.Contains(nastepnyStan))
-            {
-                Q.Enqueue(nastepnyStan);
-                passedNodes = passedNodes + 1;
-            }
-            nastepnyStan = AstarState.Down(s);
-            if (nastepnyStan != null && S.Contains(nastepnyStan))
-            {
-                Q.Enqueue(nastepnyStan);
-                passedNodes = passedNodes + 1;
-            }
-            nastepnyStan = AstarState.Left(s);
-            if (nastepnyStan != null && S.Contains(nastepnyStan))
-            {
-                Q.Enqueue(nastepnyStan);
-                passedNodes = passedNodes + 1;
-            }
-            nastepnyStan = AstarState.Right(s);
-            if (nastepnyStan != null && S.Contains(nastepnyStan))
-            {
-                Q.Enqueue(nastepnyStan);
-                passedNodes = passedNodes + 1;
+
+                newState = AstarState.Up(s);
+                if (newState != null && !S.Contains(newState))
+                {
+                    Q.Enqueue(newState);
+                    passedNodes++;
+                }
+                newState = AstarState.Down(s);
+                if (newState != null && !S.Contains(newState))
+                {
+                    Q.Enqueue(newState);
+                    passedNodes++;
+                }
+                newState = AstarState.Left(s);
+                if (newState != null && !S.Contains(newState))
+                {
+                    Q.Enqueue(newState);
+                    passedNodes++;
+                }
+                newState = AstarState.Right(s);
+                if (newState != null && !S.Contains(newState))
+                {
+                    Q.Enqueue(newState);
+                    passedNodes++;
+                }
             }
 
         }
-        public string Solve (string heuristic)
+        public string Solve(string heuristic)
         {
             Stopwatch stopwatch = new Stopwatch();
             AstarState s = new AstarState(board, heuristic);
@@ -78,9 +78,10 @@ namespace SISE_zad1
             stopwatch.Stop();
 
             time = stopwatch.Elapsed;
-            return ToSolution();
+            return ToSolution(heuristic);
         }
-        public string ToSolution()
+
+        public string ToSolution(string heuristic)
         {
             AstarState current = goal, parent;
             StringBuilder result = new StringBuilder();
@@ -88,9 +89,9 @@ namespace SISE_zad1
             while (true)
             {
                 now.Add(current);
-                parent = (AstarState) current.Previous;
-                if (parent == null)
-                    break;
+                //.CopyState(current.Previous, heuristic);
+                if (current.Previous1 == null) { parent = null; break; }
+                parent = new AstarState(current.Previous1, heuristic);
                 result.Append(current.Translation);
                 current = parent;
             }
@@ -99,7 +100,8 @@ namespace SISE_zad1
             Console.WriteLine("\nPassed nodes: " + passedNodes);
             return Reverse(result.ToString());
         }
-        public string Reverse (string s)
+
+        public string Reverse(string s)
         {
             char[] charArray = s.ToCharArray();
             Array.Reverse(charArray);
