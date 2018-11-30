@@ -11,9 +11,9 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "astr";//bfs dfs astr
-            string additionalParameter = "manh";// LRUD hamm manh
-            string boardFileName = "4x4_01_00001.txt";
+            string chosenStartegy = "bfs";//bfs dfs astr
+            string additionalParameter = "UDRL";// LRUD hamm manh
+            string boardFileName = "Boards\\4x4_01_00001.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
@@ -57,7 +57,7 @@ namespace SISE_zad1
                         Console.WriteLine("Order: " + additionalParameter);
 
                         bfsSolver solver = new bfsSolver(board);
-                        Solution.NewSolution(solver.Solve(additionalParameter), solver.Time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.S.Count, solver.checkedNodes, solver.Depth, solver.Time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
                 case "dfs":
@@ -66,7 +66,7 @@ namespace SISE_zad1
                         Console.WriteLine("Order: " + additionalParameter);
 
                         dfsSolver solver = new dfsSolver(board);
-                        Solution.NewSolution(solver.Solve2(additionalParameter), solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve2(additionalParameter), solver.S.Count, solver.checkedNodes, solver.depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
                 case "astr":
@@ -75,7 +75,7 @@ namespace SISE_zad1
                         Console.WriteLine("Heuristic: " + additionalParameter);
 
                         AstarSolver solver = new AstarSolver(board);
-                        Solution.NewSolution(solver.Solve(additionalParameter), solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.passedNodes, solver.S.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
 

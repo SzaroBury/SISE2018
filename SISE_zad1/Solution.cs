@@ -9,7 +9,7 @@ namespace SISE_zad1
 {
     public static class Solution
     {
-        public static void NewSolution(string solution, TimeSpan time, string solutionFileName, string infoFileName, string directory, bool folders)
+        public static void NewSolution(string solution, int passedNodes, int checkedNodes, int Depth, TimeSpan time, string solutionFileName, string infoFileName, string directory, bool folders)
         {
             if(folders)
             {
@@ -27,11 +27,11 @@ namespace SISE_zad1
             sw.Close();
 
             sw = File.CreateText(infoFileName);
-            if (solution.Length > 0) sw.WriteLine(solution.Length);
+            if (solution.Length > 0) sw.WriteLine(solution.Length); //Length of solution
             else sw.WriteLine(-1);
-            sw.WriteLine("2");
-            sw.WriteLine("3");
-            sw.WriteLine("4");
+            sw.WriteLine(passedNodes); //odwiedzone
+            sw.WriteLine(checkedNodes); //przetworzone
+            sw.WriteLine(Depth); //Depth
             sw.WriteLine((double)(time.Ticks/(TimeSpan.TicksPerMillisecond/1000))/1000);
             sw.Close();
         }

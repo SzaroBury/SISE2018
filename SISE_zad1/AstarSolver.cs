@@ -13,10 +13,11 @@ namespace SISE_zad1
         private AstarState goal;
         public TimeSpan time;
         private List<AstarState> now;
-        private int passedNodes = 0;
+        public int passedNodes = 0;
         public static int maxDepth = 30;
         private Queue<AstarState> Q = new Queue<AstarState>();
-        private HashSet<AstarState> S = new HashSet<AstarState>();
+        public HashSet<AstarState> S = new HashSet<AstarState>();
+        public int Depth = 0;
 
         public AstarSolver(Board b)
         {

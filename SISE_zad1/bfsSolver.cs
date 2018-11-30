@@ -11,9 +11,13 @@ namespace SISE_zad1
         private State goal;
         private TimeSpan time;
         private List<State> now;
-        private int passedNodes = 0;
-        private HashSet<State> S = new HashSet<State>();
+        public int checkedNodes = 0;
+        public HashSet<State> S = new HashSet<State>();
         private Queue<State> q = new Queue<State>();
+        public int Depth = 0;
+        private int layerCounter = 0;
+        private int nextLayerCounter = 1;
+        private int pom = 0;
 
         public TimeSpan Time { get => time; private set => time = value; }
 
@@ -31,7 +35,14 @@ namespace SISE_zad1
             State newState;
             while (q.Count != 0)
             {
-                passedNodes++;
+                if (layerCounter == 0)
+                {
+                    Depth++;
+                    layerCounter = nextLayerCounter;
+                    nextLayerCounter = 0;
+                }
+                pom = S.Count;
+                checkedNodes++;
                 state = q.Dequeue();
                 Console.WriteLine("----------------------------");
                 Console.Write(state.ToString() + Environment.NewLine);
@@ -52,7 +63,6 @@ namespace SISE_zad1
                             {
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                passedNodes++;
                                 Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
@@ -64,7 +74,6 @@ namespace SISE_zad1
                             {
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                passedNodes++;
                                 Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
@@ -76,7 +85,6 @@ namespace SISE_zad1
                             {
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                passedNodes++;
                                 Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
@@ -88,26 +96,16 @@ namespace SISE_zad1
                             {
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                passedNodes++;
                                 Console.Write(newState.ToString());
                             }
                             else Console.WriteLine("Null");
                             break;
                     }
-                    //Console.ReadKey();
                 }
+                nextLayerCounter += S.Count-pom;
+                layerCounter--;
             }
         }
-
-        //public string Solve(int[] tab, string Order)
-        //{
-        //    long startTime = Environment.TickCount;
-        //    goal = null;
-        //    State s = new State(tab);
-        //    bfs(s, Order);
-        //    Time = System.Environment.TickCount - startTime;
-        //    return CaleRozwiazanie();
-        //}
 
         public string Solve(string Order)
         {
@@ -139,7 +137,9 @@ namespace SISE_zad1
             }
             for (int i = now.Count - 1; i >= 0; i--)
                 Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + passedNodes);
+            Console.WriteLine("\nPassed nodes: " + S.Count);
+            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }
 

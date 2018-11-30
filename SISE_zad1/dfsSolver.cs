@@ -12,11 +12,12 @@ namespace SISE_zad1
         private Board board;
         private State goal;
         public TimeSpan time;
-        private int passedNodes = 0;
+        public int checkedNodes = 0;
         private List<State> now;
-        private HashSet<State> S = new HashSet<State>();
+        public HashSet<State> S = new HashSet<State>();
         private Queue<State> Q = new Queue<State>();
-        public static int maxDepth = 30;
+        public static int maxDepth = 2;
+        public int depth = 0;
 
         public dfsSolver(Board b)
         {
@@ -25,14 +26,14 @@ namespace SISE_zad1
 
         void dfsid(State s, int Depth, string Order)
         {
-            if (Depth < 0)
+            if (maxDepth -  Depth >= depth) depth = maxDepth - Depth;
+            if (Depth == 0)
                 return;
+            checkedNodes++;
             if (s.isSolved())
-                goal = s;
-            if (goal != null)
-                return;
-            State newState;
+                { goal = s; return; }
 
+            State newState;
             for (int i = 0; i < Order.Length; i++)
             {
                 switch (Order[i])
@@ -43,12 +44,11 @@ namespace SISE_zad1
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
-                            passedNodes++;
+                            Console.Write(newState.ToString());
+
                             dfsid(newState, Depth - 1, Order);
                             if (goal != null)
                                 return;
-
-                            S.Remove(newState);
                         }
                         break;
                     case 'D':
@@ -57,12 +57,11 @@ namespace SISE_zad1
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
-                            passedNodes++;
+                            Console.Write(newState.ToString());
 
                             dfsid(newState, Depth - 1, Order);
                             if (goal != null)
                                 return;
-                            S.Remove(newState);
                         }
                         break;
                     case 'L':
@@ -71,12 +70,11 @@ namespace SISE_zad1
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
-                            passedNodes++;
+                            Console.Write(newState.ToString());
 
                             dfsid(newState, Depth - 1, Order);
                             if (goal != null)
                                 return;
-                            S.Remove(newState);
                         }
                         break;
                     case 'R':
@@ -85,12 +83,11 @@ namespace SISE_zad1
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
-                            passedNodes++;
+                            Console.Write(newState.ToString());
 
                             dfsid(newState, Depth - 1, Order);
                             if (goal != null)
                                 return;
-                            S.Remove(newState);
                         }
                         break;
                 }
@@ -126,16 +123,6 @@ namespace SISE_zad1
             return ToSolution();
         }
 
-        //public String rozwiazywacz(int[] a, String porzadek)
-        //{
-        //    long startTime = System.currentTimeMillis();
-        //    cel = null;
-        //    Stan s = new Stan(a);
-        //    iteracyjnePoglebienie(s, MAX_GLEBOKOSC, porzadek);
-        //    czas = System.currentTimeMillis() - startTime;
-        //    return CaleRozwiazanie();
-        //}
-
         void iteracyjnePoglebienie(State s, int max_depth, string order)
         {
             S.Clear();
@@ -165,7 +152,7 @@ namespace SISE_zad1
             }
             for (int i = now.Count - 1; i >= 0; i--)
                 Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + passedNodes);
+            Console.WriteLine("\nPassed nodes: " + checkedNodes);
             return Reverse(result.ToString());
         }
 
