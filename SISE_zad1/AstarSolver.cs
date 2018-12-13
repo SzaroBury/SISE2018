@@ -18,6 +18,7 @@ namespace SISE_zad1
         private Queue<AstarState> Q = new Queue<AstarState>();
         public HashSet<AstarState> S = new HashSet<AstarState>();
         public int Depth = 0;
+        public int checkedNodes = 0;
 
         public AstarSolver(Board b)
         {
@@ -91,14 +92,19 @@ namespace SISE_zad1
             {
                 now.Add(current);
                 //.CopyState(current.Previous, heuristic);
-                if (current.Previous1 == null) { parent = null; break; }
-                parent = new AstarState(current.Previous1, heuristic);
+                //   if (current.Previous1 == null) { parent = null; break; }
+                //   parent = new AstarState(current.Previous1, heuristic);
+                parent = current.Previous1;
+                if (parent == null)
+                    break;
                 result.Append(current.Translation);
                 current = parent;
             }
             for (int i = now.Count - 1; i >= 0; i--)
                 Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + passedNodes);
+            Console.WriteLine("\nPassed nodes: " + S.Count);
+            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("Reached depth: " + Depth);
             return Reverse(result.ToString());
         }
 
