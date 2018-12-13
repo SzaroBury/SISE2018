@@ -16,7 +16,7 @@ namespace SISE_zad1
         private List<State> now;
         public HashSet<State> S = new HashSet<State>();
         private Queue<State> Q = new Queue<State>();
-        public static int maxDepth = 2;
+        public static int maxDepth = 30;
         public int depth = 0;
 
         public dfsSolver(Board b)
@@ -24,14 +24,13 @@ namespace SISE_zad1
             board = b;
         }
 
-        void dfsid(State s, int Depth, string Order)
+        void dfsid(State state, int Depth, string Order)
         {
             if (maxDepth -  Depth >= depth) depth = maxDepth - Depth;
-            if (Depth == 0)
-                return;
+            if (Depth == 0) return;
             checkedNodes++;
-            if (s.isSolved())
-                { goal = s; return; }
+            if (state.isSolved())
+                { goal = state; return; }
 
             State newState;
             for (int i = 0; i < Order.Length; i++)
@@ -40,7 +39,7 @@ namespace SISE_zad1
                 {
                     case 'U':
                         Console.WriteLine("U");
-                        newState = State.Up(s);
+                        newState = State.Up(state);
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
@@ -53,7 +52,7 @@ namespace SISE_zad1
                         break;
                     case 'D':
                         Console.WriteLine("D");
-                        newState = State.Down(s);
+                        newState = State.Down(state);
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
@@ -66,7 +65,7 @@ namespace SISE_zad1
                         break;
                     case 'L':
                         Console.WriteLine("L");
-                        newState = State.Left(s);
+                        newState = State.Left(state);
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
@@ -79,7 +78,7 @@ namespace SISE_zad1
                         break;
                     case 'R':
                         Console.WriteLine("R");
-                        newState = State.Right(s);
+                        newState = State.Right(state);
                         if (newState != null && !S.Contains(newState))
                         {
                             S.Add(newState);
@@ -95,14 +94,14 @@ namespace SISE_zad1
 
         }
 
-        public string Solve(string Order, Board board)
+        public string Solve(string Order)
         {
             Stopwatch stopwatch = new Stopwatch();
             goal = null;
             State s = new State(board);
 
             stopwatch.Start();
-            iteracyjnePoglebienie(s, maxDepth, Order);
+            iteracyjnePoglebienie(s, Order);
             stopwatch.Stop();
 
             time = stopwatch.Elapsed;
@@ -123,11 +122,11 @@ namespace SISE_zad1
             return ToSolution();
         }
 
-        void iteracyjnePoglebienie(State s, int max_depth, string order)
+        void iteracyjnePoglebienie(State s, string order)
         {
             S.Clear();
             S.Add(s);
-            for (int i = 1; i <= max_depth; i++)
+            for (int i = 1; i <= maxDepth; i++)
             {
                 dfsid(s, i, order);
                 if (goal != null)
@@ -152,7 +151,9 @@ namespace SISE_zad1
             }
             for (int i = now.Count - 1; i >= 0; i--)
                 Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + checkedNodes);
+            Console.WriteLine("\nPassed nodes: " + S.Count);
+            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("Reached depth: " + depth);
             return Reverse(result.ToString());
         }
 
