@@ -8,7 +8,7 @@ namespace SISE_zad1
     public class bfsSolver
     {
         private Board board;
-        private State goal;
+        private State solved;
         private TimeSpan time;
         private List<State> now;
         public int checkedNodes = 0;
@@ -44,66 +44,65 @@ namespace SISE_zad1
                 pom = S.Count;
                 checkedNodes++;
                 state = q.Dequeue();
-                Console.WriteLine("----------------------------");
-                Console.Write(state.ToString() + Environment.NewLine);
                 if (state.isSolved())
                 {
-                    goal = state;
+                    solved = state;
+                    Console.WriteLine(Environment.NewLine + "!!!SOLVED!!!" + Environment.NewLine + state);
+                    Console.WriteLine(Depth + " - " + ToSolution(state));
                     break;
                 }
-
+                Console.WriteLine(Environment.NewLine + state);
+                string pom2 = ToSolution(state);
+                Console.WriteLine(Depth + " - " + pom2);
                 for (int i = 0; i < order.Length; i++)
                 {
                     switch (order[i])
                     {
                         case 'U':
-                            Console.WriteLine("U");
                             newState = State.Up(state);
                             if (newState != null && !S.Contains(newState))
                             {
+                                Console.WriteLine(pom2 + " U");
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                Console.Write(newState.ToString());
                             }
-                            else Console.WriteLine("Null");
+                            else Console.WriteLine(pom2 + " U - Null");
                             break;
                         case 'D':
-                            Console.WriteLine("D");
                             newState = State.Down(state);
                             if (newState != null && !S.Contains(newState))
                             {
+                                Console.WriteLine(pom2 + " D");
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                Console.Write(newState.ToString());
                             }
-                            else Console.WriteLine("Null");
+                            else Console.WriteLine(pom2 + " D - Null");
                             break;
                         case 'L':
-                            Console.WriteLine("L");
                             newState = State.Left(state);
                             if (newState != null && !S.Contains(newState))
                             {
+                                Console.WriteLine(pom2 + " L");
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                Console.Write(newState.ToString());
                             }
-                            else Console.WriteLine("Null");
+                            else Console.WriteLine(pom2 + " L - Null");
                             break;
                         case 'R':
-                            Console.WriteLine("R");
                             newState = State.Right(state);
                             if (newState != null && !S.Contains(newState))
                             {
+                                Console.WriteLine(pom2 + " R");
                                 S.Add(newState);
                                 q.Enqueue(newState);
-                                Console.Write(newState.ToString());
                             }
-                            else Console.WriteLine("Null");
+                            else Console.WriteLine(pom2 + " R - Null");
                             break;
                     }
                 }
                 nextLayerCounter += S.Count-pom;
                 layerCounter--;
+                Console.WriteLine("-----------------------------------------");
             }
         }
 
@@ -117,28 +116,25 @@ namespace SISE_zad1
             stopwatch.Stop();
 
             Time = stopwatch.Elapsed;
-            return ToSolution();
+            return ToSolution(solved);
         }
 
-        public string ToSolution()
+        public string ToSolution(State input)
         {
-            State current = goal, parent;
+            State current = input, parent;
             StringBuilder result = new StringBuilder();
             now = new List<State>();
             while (true)
             {
                 now.Add(current);
                 parent = current.Previous;
-                if (parent == null)
-                    break;
+                if (parent == null) break;
                 result.Append(current.Translation);
                 current = parent;
 
             }
-            for (int i = now.Count - 1; i >= 0; i--)
-                Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + checkedNodes);
-            Console.WriteLine("Checked nodes: " + S.Count);
+            Console.WriteLine("\nPassed nodes: " + S.Count);
+            Console.WriteLine("Checked nodes: " + checkedNodes);
             Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }
