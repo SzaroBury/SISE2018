@@ -40,8 +40,10 @@ namespace SISE_zad1
                     break;
                 }
                 if (S.Contains(s))
+                {
                     continue;
-                S.Add(s);
+                }
+                    S.Add(s);
 
                 newState = AstarState.Up(s);
                 if (newState != null && !S.Contains(newState))
@@ -101,9 +103,12 @@ namespace SISE_zad1
                 current = parent;
             }
             for (int i = now.Count - 1; i >= 0; i--)
+            {
                 Console.Write(now[i]);
+            }
+            Depth = now.Count -1;
             Console.WriteLine("\nPassed nodes: " + S.Count);
-            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("Checked nodes: " + passedNodes);
             Console.WriteLine("Reached depth: " + Depth);
             return Reverse(result.ToString());
         }

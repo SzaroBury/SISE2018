@@ -137,8 +137,8 @@ namespace SISE_zad1
             }
             for (int i = now.Count - 1; i >= 0; i--)
                 Console.Write(now[i]);
-            Console.WriteLine("\nPassed nodes: " + S.Count);
-            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("\nPassed nodes: " + checkedNodes);
+            Console.WriteLine("Checked nodes: " + S.Count);
             Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }
