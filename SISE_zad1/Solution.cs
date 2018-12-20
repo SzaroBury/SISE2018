@@ -13,11 +13,8 @@ namespace SISE_zad1
         {
             if(folders)
             {
-                Directory.CreateDirectory(directory + "\\Solutions");
-                solutionFileName = directory + "\\Solutions\\" + solutionFileName;
-
-                Directory.CreateDirectory(directory + "\\Info");
-                infoFileName = directory + "\\Info\\" + infoFileName;
+                solutionFileName = directory + "\\" + solutionFileName;
+                infoFileName = directory + "\\" + infoFileName;
             }
 
             StreamWriter sw = File.CreateText(solutionFileName);

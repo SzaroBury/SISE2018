@@ -23,33 +23,10 @@ namespace SISE_zad1
 
         public AstarState() {  }
 
-        public AstarState(State state, string h)
+        public AstarState(State state, string h) :base(state)
         {
-            if(state.Previous!=null)
-                Previous = state.Previous;
-            Board = state.Board;
-            EmptyID = state.EmptyID;
-            Translation = state.Translation;
-            ByteState = new byte[state.Board.Height * state.Board.Width];
-            for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
-                ByteState[i] = state.ByteState[i];
             heuristic = h;
         }
-
-        //public static AstarState CopyState(State state, string h)
-        //{
-        //    AstarState result = new AstarState();
-        //    if (state.Previous == null) result.Previous1 = null;
-        //    else result.Previous1 = CopyState(state, h);
-        //    result.Board = state.Board;
-        //    result.EmptyID = state.EmptyID;
-        //    result.Translation = state.Translation;
-        //    result.ByteState = new byte[state.Board.Height * state.Board.Width];
-        //    for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
-        //        result.ByteState[i] = state.ByteState[i];
-        //    //result.heuristic = h;
-        //    return result;
-        //}
 
         public AstarState(Board board, string h) 
         {
@@ -79,6 +56,7 @@ namespace SISE_zad1
             for (int i = 0; i < Board.Height * Board.Width; i++)
             {
                 int d = ByteState[i] - 1;
+                if (i == EmptyID) d = ByteState.Length - 1;
                 int x1 = i / Board.Width,
                     y1 = i % Board.Height,
                     x2 = d / Board.Width,
@@ -86,6 +64,7 @@ namespace SISE_zad1
                 resultult += Math.Abs(x2 - x1);
                 resultult += Math.Abs(y2 - y1);
             }
+            //Console.WriteLine("manh: " + resultult);
             return resultult;
         }
 
@@ -93,8 +72,9 @@ namespace SISE_zad1
         {
             if (heuristic == "hamm")
                 return HammingHeuristic();
-            else
+            else if (heuristic == "manh")
                 return ManhattanHeuristic();
+            return 0;
         }
         #endregion
 
@@ -172,5 +152,9 @@ namespace SISE_zad1
             return 0;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

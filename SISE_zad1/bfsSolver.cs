@@ -10,9 +10,9 @@ namespace SISE_zad1
         private Board board;
         private State solved;
         private TimeSpan time;
-        private List<State> now;
-        public int checkedNodes = 0;
-        public HashSet<State> S = new HashSet<State>();
+        private List<State> states;
+        public int visitedNodes = 0;
+        public HashSet<string> S = new HashSet<string>();
         private Queue<State> q = new Queue<State>();
         public int Depth = 0;
         private int layerCounter = 0;
@@ -30,7 +30,7 @@ namespace SISE_zad1
         {
             S.Clear();
             q.Clear();
-            S.Add(state);
+            S.Add(state.ToString());
             q.Enqueue(state);
             State newState;
             while (q.Count != 0)
@@ -41,8 +41,7 @@ namespace SISE_zad1
                     layerCounter = nextLayerCounter;
                     nextLayerCounter = 0;
                 }
-                pom = S.Count;
-                checkedNodes++;
+                pom = visitedNodes;
                 state = q.Dequeue();
                 if (state.isSolved())
                 {
@@ -51,6 +50,7 @@ namespace SISE_zad1
                     Console.WriteLine(Depth + " - " + ToSolution(state));
                     break;
                 }
+                S.Add(state.ToString());
                 Console.WriteLine(Environment.NewLine + state);
                 string pom2 = ToSolution(state);
                 Console.WriteLine(Depth + " - " + pom2);
@@ -60,47 +60,47 @@ namespace SISE_zad1
                     {
                         case 'U':
                             newState = State.Up(state);
-                            if (newState != null && !S.Contains(newState))
+                            if (newState != null && !S.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " U");
-                                S.Add(newState);
+                                visitedNodes++;
                                 q.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " U - Null");
                             break;
                         case 'D':
                             newState = State.Down(state);
-                            if (newState != null && !S.Contains(newState))
+                            if (newState != null && !S.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " D");
-                                S.Add(newState);
+                                visitedNodes++;
                                 q.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " D - Null");
                             break;
                         case 'L':
                             newState = State.Left(state);
-                            if (newState != null && !S.Contains(newState))
+                            if (newState != null && !S.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " L");
-                                S.Add(newState);
+                                visitedNodes++;
                                 q.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " L - Null");
                             break;
                         case 'R':
                             newState = State.Right(state);
-                            if (newState != null && !S.Contains(newState))
+                            if (newState != null && !S.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " R");
-                                S.Add(newState);
+                                visitedNodes++;
                                 q.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " R - Null");
                             break;
                     }
                 }
-                nextLayerCounter += S.Count-pom;
+                nextLayerCounter += visitedNodes-pom;
                 layerCounter--;
                 Console.WriteLine("-----------------------------------------");
             }
@@ -123,18 +123,18 @@ namespace SISE_zad1
         {
             State current = input, parent;
             StringBuilder result = new StringBuilder();
-            now = new List<State>();
+            states = new List<State>();
             while (true)
             {
-                now.Add(current);
+                states.Add(current);
                 parent = current.Previous;
                 if (parent == null) break;
                 result.Append(current.Translation);
                 current = parent;
 
             }
-            Console.WriteLine("\nPassed nodes: " + S.Count);
-            Console.WriteLine("Checked nodes: " + checkedNodes);
+            Console.WriteLine("\nExplored Nodes: " + S.Count);
+            Console.WriteLine("Visited Nodes: " + visitedNodes);
             Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }

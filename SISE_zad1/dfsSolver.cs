@@ -13,10 +13,10 @@ namespace SISE_zad1
         private State solved;
         public TimeSpan time;
         public int checkedNodes = 0;
-        private List<State> now;
-        public HashSet<State> S = new HashSet<State>();
+        private List<State> states;
+        public HashSet<string> S = new HashSet<string>();
         private Queue<State> Q = new Queue<State>();
-        public static int maxDepth = 25;
+        public static int maxDepth = 10;
         public int depth = 0;
 
         public dfsSolver(Board b)
@@ -45,9 +45,9 @@ namespace SISE_zad1
                 {
                     case 'U':
                         newState = State.Up(state);
-                        if (newState != null && !S.Contains(newState))
+                        if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(newState);
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -55,9 +55,9 @@ namespace SISE_zad1
                         break;
                     case 'D':
                         newState = State.Down(state);
-                        if (newState != null && !S.Contains(newState))
+                        if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(newState);
+                            S.Add(ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -65,9 +65,9 @@ namespace SISE_zad1
                         break;
                     case 'L':
                         newState = State.Left(state);
-                        if (newState != null && !S.Contains(newState))
+                        if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(newState);
+                            S.Add(ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -75,9 +75,9 @@ namespace SISE_zad1
                         break;
                     case 'R':
                         newState = State.Right(state);
-                        if (newState != null && !S.Contains(newState))
+                        if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(newState);
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -108,7 +108,8 @@ namespace SISE_zad1
             State s = new State(board);
 
             stopwatch.Start();
-            S.Add(s);
+            S.Clear();
+            S.Add(s.ToString());
             dfsid(s, maxDepth - 1, Order);
             stopwatch.Stop();
 
@@ -119,7 +120,7 @@ namespace SISE_zad1
         void iteracyjnePoglebienie(State s, string order)
         {
             S.Clear();
-            S.Add(s);
+            S.Add(s.ToString());
             for (int i = 1; i <= maxDepth; i++)
             {
                 dfsid(s, i, order);
@@ -132,10 +133,10 @@ namespace SISE_zad1
         {
             State current = input, parent;
             StringBuilder result = new StringBuilder();
-            now = new List<State>();
+            states = new List<State>();
             while (true)
             {
-                now.Add(current);
+                states.Add(current);
                 parent = current.Previous;
                 if (parent == null)
                     break;

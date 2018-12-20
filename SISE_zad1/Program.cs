@@ -11,16 +11,16 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "dfs";//bfs dfs astr
-            string additionalParameter = "DRUL";// LRUD hamm manh
-            string boardFileName = "Boards\\4x4_02_00002.txt";
-            string solutionFileName = "solution.txt";
-            string infoFileName = "info.txt";
+            string chosenStartegy = "astr";//bfs dfs astr
+            string additionalParameter = "hamm";// LRUD hamm manh
+            string boardFileName = @"Boards\4x4_03_00007.txt";
+            string solutionFileName = @"Boards\4x4_03_00007_astr_hamm_sol.txt";
+            string infoFileName = @"Boards\4x4_03_00007_astr_hamm_stats.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
             bool sortInFolders = true;
 
             args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
-
+            
             if (args.Length > 0)
             {
                 if (args[0] == "bfs" || args[0] == "dfs" || args[0] == "astr") { chosenStartegy = args[0]; Console.WriteLine("Chosen strategy: " + chosenStartegy); }
@@ -34,10 +34,10 @@ namespace SISE_zad1
                 if (File.Exists(directoryOfProgram + "\\" + args[2])) { boardFileName = directoryOfProgram + "\\" + args[2]; Console.WriteLine("Start file path: " + boardFileName); }
                 else { Console.WriteLine("Third arg error: " + directoryOfProgram + "\\" + args[2]); Console.ReadKey(); return; }
 
-                if (!File.Exists(directoryOfProgram + "\\" + args[3])) { solutionFileName = args[3]; Console.WriteLine("Solution saving path: " + solutionFileName); }
+                if (args[3] != null) { solutionFileName = args[3]; Console.WriteLine("Solution saving path: " + solutionFileName); }
                 else { Console.WriteLine("Fourth arg error: " + directoryOfProgram + "\\" + args[3]); Console.ReadKey(); return; }
 
-                if (!File.Exists(directoryOfProgram + "\\" + args[4])) { infoFileName = args[4]; Console.WriteLine("Additional info path: " + infoFileName); }
+                if (args[4] != null) { infoFileName = args[4]; Console.WriteLine("Additional info path: " + infoFileName); }
                 else { Console.WriteLine("Fivth arg error: " + directoryOfProgram + "\\" + args[4]); Console.ReadKey(); return; }
             }    
             else
@@ -48,7 +48,6 @@ namespace SISE_zad1
             }
             Board board = new Board(boardFileName);
             Console.Write(board.ToString());
-            //Console.ReadKey();
             switch (chosenStartegy)
             {
                 case "bfs":
@@ -57,7 +56,7 @@ namespace SISE_zad1
                         Console.WriteLine("Order: " + additionalParameter);
 
                         bfsSolver solver = new bfsSolver(board);
-                        Solution.NewSolution(solver.Solve(additionalParameter), solver.S.Count, solver.checkedNodes, solver.Depth, solver.Time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.S.Count, solver.visitedNodes, solver.Depth, solver.Time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
                 case "dfs":
@@ -75,7 +74,7 @@ namespace SISE_zad1
                         Console.WriteLine("Heuristic: " + additionalParameter);
 
                         AstarSolver solver = new AstarSolver(board);
-                        Solution.NewSolution(solver.Solve(additionalParameter), solver.passedNodes, solver.S.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.checkedNodes, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
 

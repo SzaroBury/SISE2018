@@ -12,13 +12,13 @@ namespace SISE_zad1
         private Board board;
         private AstarState goal;
         public TimeSpan time;
-        private List<AstarState> now;
-        public int passedNodes = 0;
-        public static int maxDepth = 30;
-        private Queue<AstarState> Q = new Queue<AstarState>();
-        public HashSet<AstarState> S = new HashSet<AstarState>();
+        private List<AstarState> states;
+        public int checkedNodes = 1;
+        //public static int maxDepth = 30;
+        private Queue<AstarState> Open = new Queue<AstarState>();
+        public HashSet<string> Closed = new HashSet<string>();
         public int Depth = 0;
-        public int checkedNodes = 0;
+        public int test = 0;
 
         public AstarSolver(Board b)
         {
@@ -27,51 +27,80 @@ namespace SISE_zad1
 
         public void Astar(AstarState state)
         {
-            Q.Clear();
-            S.Clear();
-            Q.Enqueue(state);
-            AstarState s, newState;
-            while (Q.Count != 0)
+            Open.Clear();
+            Closed.Clear();
+            Open.Enqueue(state);
+            AstarState oldState, newState;
+            while (Open.Count != 0)
             {
-                s = Q.Dequeue();
-                if (s.isSolved())
+                Depth++;
+                oldState = Open.Dequeue();
+                if (oldState.isSolved())
                 {
-                    goal = s;
+                    goal = oldState;
+                    Console.WriteLine("!!!SOLVED!!!");
+                    Console.WriteLine(ToSolution(goal));
+                    Console.WriteLine(goal);
                     break;
                 }
-                if (S.Contains(s))
-                {
-                    continue;
-                }
-                    S.Add(s);
 
-                newState = AstarState.Up(s);
-                if (newState != null && !S.Contains(newState))
+                if (Closed.Contains(oldState.ToString())) { test++; continue; }
+                Closed.Add(oldState.ToString());
+
+                Console.WriteLine(oldState);
+                Console.WriteLine(ToSolution(oldState));
+
+                newState = AstarState.Up(oldState);
+                if (newState != null)
                 {
-                    Q.Enqueue(newState);
-                    passedNodes++;
+                    if (!Closed.Contains(newState.ToString()))
+                    {
+                        Console.Write("U");
+                        Open.Enqueue(newState);
+                        checkedNodes++;
+                    }
+                    else test++;
                 }
-                newState = AstarState.Down(s);
-                if (newState != null && !S.Contains(newState))
+
+                newState = AstarState.Down(oldState);
+                if (newState != null)
                 {
-                    Q.Enqueue(newState);
-                    passedNodes++;
+                    if (!Closed.Contains(newState.ToString()))
+                    {
+                        Console.Write("D");
+                        Open.Enqueue(newState);
+                        checkedNodes++;
+                    }
+                    else test++;
                 }
-                newState = AstarState.Left(s);
-                if (newState != null && !S.Contains(newState))
+
+                newState = AstarState.Left(oldState);
+                if (newState != null)
                 {
-                    Q.Enqueue(newState);
-                    passedNodes++;
+                    if (!Closed.Contains(newState.ToString()))
+                    {
+                        Console.Write("L");
+                        Open.Enqueue(newState);
+                        checkedNodes++;
+                    }
+                    else test++;
                 }
-                newState = AstarState.Right(s);
-                if (newState != null && !S.Contains(newState))
+
+                newState = AstarState.Right(oldState);
+                if (newState != null)
                 {
-                    Q.Enqueue(newState);
-                    passedNodes++;
+                    if (!Closed.Contains(newState.ToString()))
+                    {
+                        Console.Write("R");
+                        Open.Enqueue(newState);
+                        checkedNodes++;
+                    }
+                    else test++;
                 }
+                Console.WriteLine();
             }
-
         }
+
         public string Solve(string heuristic)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -82,34 +111,32 @@ namespace SISE_zad1
             stopwatch.Stop();
 
             time = stopwatch.Elapsed;
-            return ToSolution(heuristic);
+            return ToSolution(goal);
         }
 
-        public string ToSolution(string heuristic)
+        public string ToSolution(AstarState input)
         {
-            AstarState current = goal, parent;
+            AstarState current = input, parent;
             StringBuilder result = new StringBuilder();
-            now = new List<AstarState>();
+            states = new List<AstarState>();
             while (true)
             {
-                now.Add(current);
-                //.CopyState(current.Previous, heuristic);
-                //   if (current.Previous1 == null) { parent = null; break; }
-                //   parent = new AstarState(current.Previous1, heuristic);
+                states.Add(current);
                 parent = current.Previous1;
                 if (parent == null)
                     break;
                 result.Append(current.Translation);
                 current = parent;
             }
-            for (int i = now.Count - 1; i >= 0; i--)
+            for (int i = states.Count - 1; i >= 0; i--)
             {
-                Console.Write(now[i]);
+                //Console.Write(now[i]);
             }
-            Depth = now.Count -1;
-            Console.WriteLine("\nPassed nodes: " + S.Count);
-            Console.WriteLine("Checked nodes: " + passedNodes);
+            //Depth = states.Count;
+            Console.WriteLine("\nVisited nodes: " + checkedNodes);
+            Console.WriteLine("Explored nodes: " + Closed.Count);
             Console.WriteLine("Reached depth: " + Depth);
+            Console.WriteLine("Repeats: " + test);
             return Reverse(result.ToString());
         }
 

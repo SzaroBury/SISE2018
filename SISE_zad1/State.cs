@@ -8,25 +8,23 @@ namespace SISE_zad1
 {
     public class State
     {
-        private byte[] byteState;
-        private int emptyID;
-        private char translation;
-        private State previous;
-        private Board board;
-
-        public State Previous { get => previous; protected set => previous = value; }
-        public char Translation { get => translation; protected set => translation = value; }
-        public Board Board { get => board; set => board = value; }
-        public int EmptyID { get => emptyID; set => emptyID = value; }
-        public byte[] ByteState { get => byteState; set => byteState = value; }
+        public State Previous { get; protected set; }
+        public char Translation { get; protected set; }
+        public Board Board { get; set; }
+        public int EmptyID { get; set; }
+        public byte[] ByteState { get; set; }
+        public int Depth { get; set; }
 
         public State() { }
 
         public State(State state)
         {
-            Previous = state;
+            if (state.Previous != null)
+                Previous = state.Previous;
             Board = state.Board;
             EmptyID = state.EmptyID;
+            Translation = state.Translation;
+            Depth = state.Depth;
             ByteState = new byte[state.Board.Height * state.Board.Width];
             for (int i = 0; i < state.Board.Height * state.Board.Width; i++)
             {
@@ -125,7 +123,6 @@ namespace SISE_zad1
                     res.Append("0 ");
                 else
                     res.Append(ByteState[i].ToString() + " ");
-                if (i % Board.Width == Board.Width - 1) res.Append(Environment.NewLine);
             }
             return res.ToString();
         }
