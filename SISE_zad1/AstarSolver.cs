@@ -31,7 +31,7 @@ namespace SISE_zad1
             while (Open.Count != 0)
             {
                 oldState = Open.DeleteMin();
-                if (oldState.Depth >= Depth) Depth = state.Depth;
+                if (oldState.Depth > Depth) Depth = oldState.Depth;
                 if (oldState.isSolved())
                 {
                     goal = oldState;

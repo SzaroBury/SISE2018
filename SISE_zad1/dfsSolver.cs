@@ -25,7 +25,8 @@ namespace SISE_zad1
         void dfsid(State state, string Order)
         {
             if (state.Depth > MaxDepth) return;
-            if (state.Depth >= Depth) Depth = state.Depth;
+            if (state.Depth > Depth) Depth = state.Depth;
+            Closed.Add(state.ToString());
             if (state.isSolved())
             {
                 solved = state;
@@ -33,7 +34,6 @@ namespace SISE_zad1
                 //Console.WriteLine(state.Depth + " - " + ToSolution(state));
                 return;
             }
-            Closed.Add(state.ToString());
             //Console.WriteLine(Environment.NewLine + (state.Depth) + " - " + ToSolution(state));
             //Console.WriteLine(state);
             State newState;
@@ -107,7 +107,6 @@ namespace SISE_zad1
 
             stopwatch.Start();
             Closed.Clear();
-            Closed.Add(s.ToString());
             dfsid(s, Order);
             stopwatch.Stop();
 
@@ -133,7 +132,12 @@ namespace SISE_zad1
             State current = input, parent;
             StringBuilder result = new StringBuilder();
             states = new List<State>();
-            
+            if (input == null)
+            {
+                Console.WriteLine("Brak rozwiązania");
+                return "";
+            }
+
             while (true)
             {
                 states.Add(current);
