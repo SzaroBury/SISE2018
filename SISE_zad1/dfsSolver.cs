@@ -16,7 +16,7 @@ namespace SISE_zad1
         private List<State> states;
         public HashSet<string> S = new HashSet<string>();
         private Queue<State> Q = new Queue<State>();
-        public static int maxDepth = 10;
+        public static int maxDepth = 20;
         public int depth = 0;
 
         public dfsSolver(Board b)
@@ -57,7 +57,7 @@ namespace SISE_zad1
                         newState = State.Down(state);
                         if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(ToString());
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -67,7 +67,7 @@ namespace SISE_zad1
                         newState = State.Left(state);
                         if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(ToString());
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));

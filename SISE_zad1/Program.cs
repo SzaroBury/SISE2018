@@ -11,11 +11,11 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "astr";//bfs dfs astr
-            string additionalParameter = "manh";// LRUD hamm manh
-            string boardFileName = @"Boards\4x4_07_00007.txt";
-            string solutionFileName = @"Boards\4x4_07_00007_astr_hamm_sol.txt";
-            string infoFileName = @"Boards\4x4_07_00007_astr_hamm_stats.txt";
+            string chosenStartegy = "dfs";//bfs dfs astr
+            string additionalParameter = "UDLR";// LRUD hamm manh
+            string boardFileName = @"Boards\4x4_03_00003.txt";
+            string solutionFileName = "solution.txt";
+            string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
             bool sortInFolders = true;
 
