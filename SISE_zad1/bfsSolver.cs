@@ -9,17 +9,12 @@ namespace SISE_zad1
     {
         private Board board;
         private State solved;
-        private TimeSpan time;
+        public TimeSpan time;
         private List<State> states;
-        public int visitedNodes = 0;
-        public HashSet<string> S = new HashSet<string>();
-        private Queue<State> q = new Queue<State>();
+        public int openedStates = 0;
+        public HashSet<string> Closed = new HashSet<string>();
+        private Queue<State> Opened = new Queue<State>();
         public int Depth = 0;
-        private int layerCounter = 0;
-        private int nextLayerCounter = 1;
-        private int pom = 0;
-
-        public TimeSpan Time { get => time; private set => time = value; }
 
         public bfsSolver(Board board)
         {
@@ -28,21 +23,15 @@ namespace SISE_zad1
 
         private void bfs(State state, string order)
         {
-            S.Clear();
-            q.Clear();
-            S.Add(state.ToString());
-            q.Enqueue(state);
+            Closed.Clear();
+            Opened.Clear();
+            Opened.Enqueue(state);
             State newState;
-            while (q.Count != 0)
+            while (Opened.Count != 0)
             {
-                if (layerCounter == 0)
-                {
-                    Depth++;
-                    layerCounter = nextLayerCounter;
-                    nextLayerCounter = 0;
-                }
-                pom = visitedNodes;
-                state = q.Dequeue();
+                if (state.Depth >= Depth) Depth = state.Depth;
+                state = Opened.Dequeue();
+                Closed.Add(state.ToString());
                 if (state.isSolved())
                 {
                     solved = state;
@@ -50,7 +39,6 @@ namespace SISE_zad1
                     Console.WriteLine(Depth + " - " + ToSolution(state));
                     break;
                 }
-                S.Add(state.ToString());
                 Console.WriteLine(Environment.NewLine + state);
                 string pom2 = ToSolution(state);
                 Console.WriteLine(Depth + " - " + pom2);
@@ -60,48 +48,46 @@ namespace SISE_zad1
                     {
                         case 'U':
                             newState = State.Up(state);
-                            if (newState != null && !S.Contains(newState.ToString()))
+                            if (newState != null && !Closed.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " U");
-                                visitedNodes++;
-                                q.Enqueue(newState);
+                                openedStates++;
+                                Opened.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " U - Null");
                             break;
                         case 'D':
                             newState = State.Down(state);
-                            if (newState != null && !S.Contains(newState.ToString()))
+                            if (newState != null && !Closed.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " D");
-                                visitedNodes++;
-                                q.Enqueue(newState);
+                                openedStates++;
+                                Opened.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " D - Null");
                             break;
                         case 'L':
                             newState = State.Left(state);
-                            if (newState != null && !S.Contains(newState.ToString()))
+                            if (newState != null && !Closed.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " L");
-                                visitedNodes++;
-                                q.Enqueue(newState);
+                                openedStates++;
+                                Opened.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " L - Null");
                             break;
                         case 'R':
                             newState = State.Right(state);
-                            if (newState != null && !S.Contains(newState.ToString()))
+                            if (newState != null && !Closed.Contains(newState.ToString()))
                             {
                                 Console.WriteLine(pom2 + " R");
-                                visitedNodes++;
-                                q.Enqueue(newState);
+                                openedStates++;
+                                Opened.Enqueue(newState);
                             }
                             else Console.WriteLine(pom2 + " R - Null");
                             break;
                     }
                 }
-                nextLayerCounter += visitedNodes-pom;
-                layerCounter--;
                 Console.WriteLine("-----------------------------------------");
             }
         }
@@ -115,7 +101,7 @@ namespace SISE_zad1
             bfs(s, Order);
             stopwatch.Stop();
 
-            Time = stopwatch.Elapsed;
+            time = stopwatch.Elapsed;
             return ToSolution(solved);
         }
 
@@ -128,13 +114,13 @@ namespace SISE_zad1
             {
                 states.Add(current);
                 parent = current.Previous;
-                if (parent == null) break;
                 result.Append(current.Translation);
-                current = parent;
 
+                if (parent == null) break;
+                current = parent;
             }
-            Console.WriteLine("\nExplored Nodes: " + S.Count);
-            Console.WriteLine("Visited Nodes: " + visitedNodes);
+            Console.WriteLine("\nOpened nodes: " + openedStates);
+            Console.WriteLine("Closed Nodes: " + Closed.Count);
             Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }

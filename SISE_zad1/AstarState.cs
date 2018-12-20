@@ -135,11 +135,10 @@ namespace SISE_zad1
 
         public int CompareTo(AstarState stan)
         {
-            int l = this.f(), r = stan.f();
-            if (l > r)
-                return 1;
-            if (l < r)
-                return -1;
+            int l = f(), 
+                r = stan.f();
+            if (l > r) return 1;
+            if (l < r) return -1;
             return 0;
         }
 

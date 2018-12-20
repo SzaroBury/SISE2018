@@ -31,6 +31,7 @@ namespace SISE_zad1
             while (Open.Count != 0)
             {
                 oldState = Open.DeleteMin();
+                if (oldState.Depth >= Depth) Depth = state.Depth;
                 if (oldState.isSolved())
                 {
                     goal = oldState;
@@ -111,15 +112,13 @@ namespace SISE_zad1
             AstarState current = input, parent;
             StringBuilder result = new StringBuilder();
             states = new List<AstarState>();
-            Depth = 0;
             while (true)
             {
-                if (current.Depth > Depth) Depth = current.Depth;
                 states.Add(current);
                 parent = current.Previous1;
                 result.Append(current.Translation);
-                if (parent == null)
-                    break;
+
+                if (parent == null) break;
                 current = parent;
             }
             
