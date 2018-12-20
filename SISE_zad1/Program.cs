@@ -11,9 +11,9 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "astr";//bfs dfs astr
-            string additionalParameter = "hamm";// LRUD hamm manh
-            string boardFileName = "Boards\\4x4_07_00023.txt";
+            string chosenStartegy = "dfs";//bfs dfs astr
+            string additionalParameter = "ULDR";// LRUD hamm manh
+            string boardFileName = @"Boards\4x4_03_00003.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
