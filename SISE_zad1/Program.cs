@@ -12,7 +12,7 @@ namespace SISE_zad1
         static void Main(string[] args)
         {
             string chosenStartegy = "dfs";//bfs dfs astr
-            string additionalParameter = "UDLR";// LRUD hamm manh
+            string additionalParameter = "ULDR";// LRUD hamm manh
             string boardFileName = @"Boards\4x4_03_00003.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
