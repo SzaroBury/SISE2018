@@ -72,8 +72,9 @@ namespace SISE_zad1
         public static State Up(State oldState)
         {
             if (oldState.EmptyID < oldState.Board.Width) return null;
-            State newState = new State(oldState);
 
+            State newState = new State(oldState);
+            newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID - newState.Board.Width);
             newState.EmptyID -= oldState.Board.Width;
             newState.Translation = 'U';
@@ -83,8 +84,9 @@ namespace SISE_zad1
         public static State Down(State oldState)
         {
             if (oldState.EmptyID >= oldState.Board.Height * oldState.Board.Width - oldState.Board.Width) return null;
-            State newState = new State(oldState);
 
+            State newState = new State(oldState);
+            newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID + newState.Board.Width);
             newState.EmptyID += oldState.Board.Width;
             newState.Translation = 'D';
@@ -96,6 +98,7 @@ namespace SISE_zad1
             if (oldState.EmptyID % oldState.Board.Width == 0) return null;
             
             State newState = new State(oldState);
+            newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID - 1);
             newState.EmptyID -= 1;
             newState.Translation = 'L';
@@ -106,8 +109,9 @@ namespace SISE_zad1
         public static State Right(State oldState)
         {
             if (oldState.EmptyID % oldState.Board.Width == oldState.Board.Width - 1) return null;
-            State newState = new State(oldState);
 
+            State newState = new State(oldState);
+            newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID + 1);
             newState.EmptyID += 1;
             newState.Translation = 'R';

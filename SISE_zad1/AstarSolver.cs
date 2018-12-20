@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using C5;
 
 namespace SISE_zad1
 {
@@ -14,9 +14,8 @@ namespace SISE_zad1
         public TimeSpan time;
         private List<AstarState> states;
         public int checkedNodes = 1;
-        //public static int maxDepth = 30;
-        private Queue<AstarState> Open = new Queue<AstarState>();
-        public HashSet<string> Closed = new HashSet<string>();
+        IntervalHeap<AstarState> Open = new IntervalHeap<AstarState>();
+        public C5.HashSet<string> Closed = new C5.HashSet<string>();
         public int Depth = 0;
         public int test = 0;
 
@@ -27,14 +26,13 @@ namespace SISE_zad1
 
         public void Astar(AstarState state)
         {
-            Open.Clear();
             Closed.Clear();
-            Open.Enqueue(state);
+            Open.Add(state);
             AstarState oldState, newState;
             while (Open.Count != 0)
             {
                 Depth++;
-                oldState = Open.Dequeue();
+                oldState = Open.DeleteMin();
                 if (oldState.isSolved())
                 {
                     goal = oldState;
@@ -56,7 +54,7 @@ namespace SISE_zad1
                     if (!Closed.Contains(newState.ToString()))
                     {
                         Console.Write("U");
-                        Open.Enqueue(newState);
+                        Open.Add(newState);
                         checkedNodes++;
                     }
                     else test++;
@@ -68,7 +66,7 @@ namespace SISE_zad1
                     if (!Closed.Contains(newState.ToString()))
                     {
                         Console.Write("D");
-                        Open.Enqueue(newState);
+                        Open.Add(newState);
                         checkedNodes++;
                     }
                     else test++;
@@ -80,7 +78,7 @@ namespace SISE_zad1
                     if (!Closed.Contains(newState.ToString()))
                     {
                         Console.Write("L");
-                        Open.Enqueue(newState);
+                        Open.Add(newState);
                         checkedNodes++;
                     }
                     else test++;
@@ -92,7 +90,7 @@ namespace SISE_zad1
                     if (!Closed.Contains(newState.ToString()))
                     {
                         Console.Write("R");
-                        Open.Enqueue(newState);
+                        Open.Add(newState);
                         checkedNodes++;
                     }
                     else test++;

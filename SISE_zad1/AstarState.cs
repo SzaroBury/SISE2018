@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SISE_zad1
 {
-    public class AstarState : State
+    public class AstarState : State, IComparable<AstarState>
     {
         private int g;
         private int h;
