@@ -13,7 +13,7 @@ namespace SISE_zad1
         {
             string chosenStartegy = "dfs";//bfs dfs astr
             string additionalParameter = "DRUL";// LRUD hamm manh
-            string boardFileName = "Boards\\4x4_02_00002.txt";
+            string boardFileName = "Boards\\4x4_05_00001.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
