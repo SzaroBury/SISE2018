@@ -11,49 +11,49 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "bfs";//bfs dfs astr
-            string additionalParameter = "ULDR";// LRUD hamm manh
+            string chosenStartegy = "astr";//bfs dfs astr
+            string additionalParameter = "hamm";// LRUD hamm manh
             string boardFileName = @"Boards\4x4_03_00003.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
             bool sortInFolders = true;
 
-            args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
+            //args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
             
             if (args.Length > 0)
             {
-                if (args[0] == "bfs" || args[0] == "dfs" || args[0] == "astr") { chosenStartegy = args[0]; Console.WriteLine("Chosen strategy: " + chosenStartegy); }
-                else { Console.WriteLine("First arg error"); Console.ReadKey(); return; }
+                if (args[0] == "bfs" || args[0] == "dfs" || args[0] == "astr") { chosenStartegy = args[0]; } //Console.WriteLine("Chosen strategy: " + chosenStartegy); }
+                                                                                                             //else { //Console.WriteLine("First arg error"); Console.ReadKey(); return; }
 
                 if (args[1] == "hamm" || args[1] == "manh" ||
                     (args[1].Contains("L") && args[1].Contains("R") && args[1].Contains("U") && args[1].Contains("D") && args[1].Length == 4))
-                        { additionalParameter = args[1]; Console.WriteLine("Additional parameter: " + additionalParameter); }
-                else { Console.WriteLine("Second arg error"); Console.ReadKey(); return; }
+                { additionalParameter = args[1]; } //Console.WriteLine("Additional parameter: " + additionalParameter); }
+                                                   //else { //Console.WriteLine("Second arg error"); Console.ReadKey(); return; }
 
-                if (File.Exists(directoryOfProgram + "\\" + args[2])) { boardFileName = directoryOfProgram + "\\" + args[2]; Console.WriteLine("Start file path: " + boardFileName); }
-                else { Console.WriteLine("Third arg error: " + directoryOfProgram + "\\" + args[2]); Console.ReadKey(); return; }
+                if (File.Exists(directoryOfProgram + "\\" + args[2])) { boardFileName = directoryOfProgram + "\\" + args[2]; } //Console.WriteLine("Start file path: " + boardFileName); }
+                                                                                                                               //else { //Console.WriteLine("Third arg error: " + directoryOfProgram + "\\" + args[2]); Console.ReadKey(); return; }
 
-                if (args[3] != null) { solutionFileName = args[3]; Console.WriteLine("Solution saving path: " + solutionFileName); }
-                else { Console.WriteLine("Fourth arg error: " + directoryOfProgram + "\\" + args[3]); Console.ReadKey(); return; }
+                if (args[3] != null) { solutionFileName = args[3]; }//Console.WriteLine("Solution saving path: " + solutionFileName); }
+                                                                    //else { //Console.WriteLine("Fourth arg error: " + directoryOfProgram + "\\" + args[3]); Console.ReadKey(); return; }
 
-                if (args[4] != null) { infoFileName = args[4]; Console.WriteLine("Additional info path: " + infoFileName); }
-                else { Console.WriteLine("Fivth arg error: " + directoryOfProgram + "\\" + args[4]); Console.ReadKey(); return; }
-            }    
+                if (args[4] != null) { infoFileName = args[4]; }//Console.WriteLine("Additional info path: " + infoFileName); }
+                                                                //else { //Console.WriteLine("Fivth arg error: " + directoryOfProgram + "\\" + args[4]); Console.ReadKey(); return; }
+            }
             else
             {
-                Console.WriteLine("Syntax error");
-                Console.ReadKey();
+                //Console.WriteLine("Syntax error");
+                //Console.ReadKey();
                 return;
             }
             Board board = new Board(boardFileName);
-            Console.Write(board.ToString());
+            //Console.Write(board.ToString());
             switch (chosenStartegy)
             {
                 case "bfs":
                     {
-                        Console.WriteLine("Breadth first searching");
-                        Console.WriteLine("Order: " + additionalParameter);
+                        //Console.WriteLine("Breadth first searching");
+                        //Console.WriteLine("Order: " + additionalParameter);
 
                         bfsSolver solver = new bfsSolver(board);
                         Solution.NewSolution(solver.Solve(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
@@ -61,8 +61,8 @@ namespace SISE_zad1
                     }
                 case "dfs":
                     {
-                        Console.WriteLine("Depth first searching");
-                        Console.WriteLine("Order: " + additionalParameter);
+                        //Console.WriteLine("Depth first searching");
+                        //Console.WriteLine("Order: " + additionalParameter);
 
                         dfsSolver solver = new dfsSolver(board);
                         Solution.NewSolution(solver.Solve2(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
@@ -70,16 +70,15 @@ namespace SISE_zad1
                     }
                 case "astr":
                     {
-                        Console.WriteLine("A* search algorithm");
-                        Console.WriteLine("Heuristic: " + additionalParameter);
+                        //Console.WriteLine("A* search algorithm");
+                        //Console.WriteLine("Heuristic: " + additionalParameter);
 
                         AstarSolver solver = new AstarSolver(board);
                         Solution.NewSolution(solver.Solve(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
-
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

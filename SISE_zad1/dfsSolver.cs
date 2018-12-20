@@ -29,13 +29,13 @@ namespace SISE_zad1
             if (state.isSolved())
             {
                 solved = state;
-                Console.WriteLine(Environment.NewLine + "!!!SOLVED!!!" + Environment.NewLine + state);
-                Console.WriteLine(state.Depth + " - " + ToSolution(state));
+                //Console.WriteLine(Environment.NewLine + "!!!SOLVED!!!" + Environment.NewLine + state);
+                //Console.WriteLine(state.Depth + " - " + ToSolution(state));
                 return;
             }
             Closed.Add(state.ToString());
-            Console.WriteLine(Environment.NewLine + (state.Depth) + " - " + ToSolution(state));
-            Console.WriteLine(state);
+            //Console.WriteLine(Environment.NewLine + (state.Depth) + " - " + ToSolution(state));
+            //Console.WriteLine(state);
             State newState;
             for (int i = 0; i < Order.Length; i++)
             {
@@ -48,7 +48,7 @@ namespace SISE_zad1
                             openedStates++;
                             dfsid(newState, Order);
                             if (solved != null) return;
-                            Console.WriteLine(newState.Depth + " - " + ToSolution(state));
+                            //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
                         }
                         break;
                     case 'D':
@@ -58,7 +58,7 @@ namespace SISE_zad1
                             openedStates++;
                             dfsid(newState, Order);
                             if (solved != null) return;
-                            Console.WriteLine(newState.Depth + " - " + ToSolution(state));
+                            //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
                         }
                         break;
                     case 'L':
@@ -68,7 +68,7 @@ namespace SISE_zad1
                             openedStates++;
                             dfsid(newState, Order);
                             if (solved != null) return;
-                            Console.WriteLine(newState.Depth + " - " + ToSolution(state));
+                            //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
                         }
                         break;
                     case 'R':
@@ -78,7 +78,7 @@ namespace SISE_zad1
                             openedStates++;
                             dfsid(newState, Order);
                             if (solved != null) return;
-                            Console.WriteLine(newState.Depth + " - " + ToSolution(state));
+                            //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
                         }
                         break;
                 }
@@ -138,15 +138,15 @@ namespace SISE_zad1
             {
                 states.Add(current);
                 parent = current.Previous;
-                result.Append(current.Translation);
 
                 if (parent == null) break;
+                result.Append(current.Translation);
                 current = parent;
             }
 
-            Console.WriteLine("\nOpened states: " + openedStates);
-            Console.WriteLine("Closed states: " + Closed.Count);
-            Console.WriteLine("Reached depth: " + Depth);
+            //Console.WriteLine("\nOpened states: " + openedStates);
+            //Console.WriteLine("Closed states: " + Closed.Count);
+            //Console.WriteLine("Reached depth: " + Depth);
             return Reverse(result.ToString());
         }
 
