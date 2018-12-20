@@ -29,8 +29,8 @@ namespace SISE_zad1
             State newState;
             while (Opened.Count != 0)
             {
-                if (state.Depth >= Depth) Depth = state.Depth;
                 state = Opened.Dequeue();
+                if (state.Depth >= Depth) Depth = state.Depth;
                 Closed.Add(state.ToString());
                 if (state.isSolved())
                 {
