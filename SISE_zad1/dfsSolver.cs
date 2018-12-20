@@ -57,7 +57,7 @@ namespace SISE_zad1
                         newState = State.Down(state);
                         if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(ToString());
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
@@ -67,7 +67,7 @@ namespace SISE_zad1
                         newState = State.Left(state);
                         if (newState != null && !S.Contains(newState.ToString()))
                         {
-                            S.Add(ToString());
+                            S.Add(newState.ToString());
                             dfsid(newState, Depth - 1, Order);
                             if (solved != null) return;
                             Console.WriteLine((maxDepth - Depth) + " - " + ToSolution(state));
