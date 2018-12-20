@@ -13,11 +13,10 @@ namespace SISE_zad1
         private AstarState goal;
         public TimeSpan time;
         private List<AstarState> states;
-        public int checkedNodes = 1;
+        public int openedStates = 1;
         IntervalHeap<AstarState> Open = new IntervalHeap<AstarState>();
         public C5.HashSet<string> Closed = new C5.HashSet<string>();
         public int Depth = 0;
-        public int test = 0;
 
         public AstarSolver(Board b)
         {
@@ -31,7 +30,6 @@ namespace SISE_zad1
             AstarState oldState, newState;
             while (Open.Count != 0)
             {
-                Depth++;
                 oldState = Open.DeleteMin();
                 if (oldState.isSolved())
                 {
@@ -42,9 +40,9 @@ namespace SISE_zad1
                     break;
                 }
 
-                if (Closed.Contains(oldState.ToString())) { test++; continue; }
-                Closed.Add(oldState.ToString());
+                if (Closed.Contains(oldState.ToString())) continue;
 
+                Closed.Add(oldState.ToString());
                 Console.WriteLine(oldState);
                 Console.WriteLine(ToSolution(oldState));
 
@@ -55,9 +53,8 @@ namespace SISE_zad1
                     {
                         Console.Write("U");
                         Open.Add(newState);
-                        checkedNodes++;
+                        openedStates++;
                     }
-                    else test++;
                 }
 
                 newState = AstarState.Down(oldState);
@@ -67,9 +64,8 @@ namespace SISE_zad1
                     {
                         Console.Write("D");
                         Open.Add(newState);
-                        checkedNodes++;
+                        openedStates++;
                     }
-                    else test++;
                 }
 
                 newState = AstarState.Left(oldState);
@@ -79,9 +75,8 @@ namespace SISE_zad1
                     {
                         Console.Write("L");
                         Open.Add(newState);
-                        checkedNodes++;
+                        openedStates++;
                     }
-                    else test++;
                 }
 
                 newState = AstarState.Right(oldState);
@@ -91,9 +86,8 @@ namespace SISE_zad1
                     {
                         Console.Write("R");
                         Open.Add(newState);
-                        checkedNodes++;
+                        openedStates++;
                     }
-                    else test++;
                 }
                 Console.WriteLine();
             }
@@ -117,24 +111,21 @@ namespace SISE_zad1
             AstarState current = input, parent;
             StringBuilder result = new StringBuilder();
             states = new List<AstarState>();
+            Depth = 0;
             while (true)
             {
+                if (current.Depth > Depth) Depth = current.Depth;
                 states.Add(current);
                 parent = current.Previous1;
+                result.Append(current.Translation);
                 if (parent == null)
                     break;
-                result.Append(current.Translation);
                 current = parent;
             }
-            for (int i = states.Count - 1; i >= 0; i--)
-            {
-                //Console.Write(now[i]);
-            }
-            //Depth = states.Count;
-            Console.WriteLine("\nVisited nodes: " + checkedNodes);
-            Console.WriteLine("Explored nodes: " + Closed.Count);
+            
+            Console.WriteLine("\nOpened nodes: " + openedStates);
+            Console.WriteLine("Closed nodes: " + Closed.Count);
             Console.WriteLine("Reached depth: " + Depth);
-            Console.WriteLine("Repeats: " + test);
             return Reverse(result.ToString());
         }
 

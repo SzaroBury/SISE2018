@@ -17,7 +17,7 @@ namespace SISE_zad1
 
         public State() { }
 
-        public State(State state)
+        public State(State state) //copy consturctor
         {
             if (state.Previous != null)
                 Previous = state.Previous;
@@ -32,28 +32,15 @@ namespace SISE_zad1
             }
         }
 
-        public State(Board board)
+        public State(Board board) 
         {
-            this.Board = board;
+            Board = board;
+            Depth = 0;
             EmptyID = board.EmptyId;
-
             ByteState = new byte[board.Height * board.Width];
             for (int i = 0; i < board.Height * board.Height; i++)
                 ByteState[i] = board.Input[i];
         }
-
-        //public State(int[] a)
-        //{
-        //    int rozmiar = (int)(Math.Sqrt(a.Length) + 1e-6);
-        //    int top = rozmiar * rozmiar;
-        //    byteState = new byte[top];
-        //    for (int i = 0; i < top; i++)
-        //    {
-        //        byteState[i] = (byte)a[i];
-        //        if (byteState[i] == 0)
-        //            emptyID = i;
-        //    }
-        //}
 
         private void changePlaces(int i, int j)
         {
@@ -74,6 +61,7 @@ namespace SISE_zad1
             if (oldState.EmptyID < oldState.Board.Width) return null;
 
             State newState = new State(oldState);
+            newState.Depth++;
             newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID - newState.Board.Width);
             newState.EmptyID -= oldState.Board.Width;
@@ -86,6 +74,7 @@ namespace SISE_zad1
             if (oldState.EmptyID >= oldState.Board.Height * oldState.Board.Width - oldState.Board.Width) return null;
 
             State newState = new State(oldState);
+            newState.Depth++;
             newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID + newState.Board.Width);
             newState.EmptyID += oldState.Board.Width;
@@ -98,6 +87,7 @@ namespace SISE_zad1
             if (oldState.EmptyID % oldState.Board.Width == 0) return null;
             
             State newState = new State(oldState);
+            newState.Depth++;
             newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID - 1);
             newState.EmptyID -= 1;
@@ -111,6 +101,7 @@ namespace SISE_zad1
             if (oldState.EmptyID % oldState.Board.Width == oldState.Board.Width - 1) return null;
 
             State newState = new State(oldState);
+            newState.Depth++;
             newState.Previous = oldState;
             newState.changePlaces(newState.EmptyID, newState.EmptyID + 1);
             newState.EmptyID += 1;

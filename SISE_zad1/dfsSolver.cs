@@ -16,7 +16,7 @@ namespace SISE_zad1
         private List<State> states;
         public HashSet<string> S = new HashSet<string>();
         private Queue<State> Q = new Queue<State>();
-        public static int maxDepth = 10;
+        public static int maxDepth = 20;
         public int depth = 0;
 
         public dfsSolver(Board b)

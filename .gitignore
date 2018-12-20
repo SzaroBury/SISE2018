@@ -1,6 +1,8 @@
 # Visual Studio cache directory
 .vs/
-
+packages/
 WIKAMP_APPS/
 SISE_zad1/obj/
 bin
+*.orig
+*.suo

@@ -9,12 +9,10 @@ namespace SISE_zad1
     public class AstarState : State, IComparable<AstarState>
     {
         private int g;
-        private int h;
         private static string heuristic;
-        private AstarState previous;
 
-        private int H { get => h; set => h = value; }
-        public AstarState Previous1 { get => previous; set => previous = value; }
+        private int H { get; set; }
+        public AstarState Previous1 { get; set; }
 
         public int f()
         {
@@ -28,14 +26,8 @@ namespace SISE_zad1
             heuristic = h;
         }
 
-        public AstarState(Board board, string h) 
+        public AstarState(Board board, string h) : base(board)
         {
-            Board = board;
-            EmptyID = board.EmptyId;
-
-            ByteState = new byte[board.Height * board.Width];
-            for (int i = 0; i < board.Height * board.Height; i++)
-                ByteState[i] = board.Input[i];
             heuristic = h;
         }
 
@@ -64,7 +56,6 @@ namespace SISE_zad1
                 resultult += Math.Abs(x2 - x1);
                 resultult += Math.Abs(y2 - y1);
             }
-            //Console.WriteLine("manh: " + resultult);
             return resultult;
         }
 

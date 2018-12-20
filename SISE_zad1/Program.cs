@@ -12,10 +12,10 @@ namespace SISE_zad1
         static void Main(string[] args)
         {
             string chosenStartegy = "astr";//bfs dfs astr
-            string additionalParameter = "manh";// LRUD hamm manh
-            string boardFileName = @"Boards\4x4_07_00007.txt";
-            string solutionFileName = @"Boards\4x4_07_00007_astr_hamm_sol.txt";
-            string infoFileName = @"Boards\4x4_07_00007_astr_hamm_stats.txt";
+            string additionalParameter = "hamm";// LRUD hamm manh
+            string boardFileName = "Boards\\4x4_07_00023.txt";
+            string solutionFileName = "solution.txt";
+            string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
             bool sortInFolders = true;
 
@@ -74,7 +74,7 @@ namespace SISE_zad1
                         Console.WriteLine("Heuristic: " + additionalParameter);
 
                         AstarSolver solver = new AstarSolver(board);
-                        Solution.NewSolution(solver.Solve(additionalParameter), solver.checkedNodes, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
 
