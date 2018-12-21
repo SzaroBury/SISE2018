@@ -11,15 +11,15 @@ namespace SISE_zad1
     {
         static void Main(string[] args)
         {
-            string chosenStartegy = "astr";//bfs dfs astr
-            string additionalParameter = "hamm";// LRUD hamm manh
+            string chosenStartegy = "dfs";//bfs dfs astr
+            string additionalParameter = "RDUL";// LRUD hamm manh
             string boardFileName = @"Boards\4x4_03_00003.txt";
             string solutionFileName = "solution.txt";
             string infoFileName = "info.txt";
             string directoryOfProgram = Directory.GetCurrentDirectory();
             bool sortInFolders = true;
 
-            //args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
+            args = new string[5]; args[0] = chosenStartegy; args[1] = additionalParameter; args[2] = boardFileName; args[3] = solutionFileName; args[4] = infoFileName; //Odkomentować jeśli domyślne argumenty
             
             if (args.Length > 0)
             {
@@ -65,7 +65,7 @@ namespace SISE_zad1
                         //Console.WriteLine("Order: " + additionalParameter);
 
                         dfsSolver solver = new dfsSolver(board);
-                        Solution.NewSolution(solver.Solve2(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
+                        Solution.NewSolution(solver.Solve(additionalParameter), solver.openedStates, solver.Closed.Count, solver.Depth, solver.time, solutionFileName, infoFileName, directoryOfProgram, sortInFolders);
                         break;
                     }
                 case "astr":

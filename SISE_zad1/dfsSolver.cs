@@ -26,7 +26,7 @@ namespace SISE_zad1
         {
             if (state.Depth > MaxDepth) return;
             if (state.Depth > Depth) Depth = state.Depth;
-            Closed.Add(state.ToString());
+            
             if (state.isSolved())
             {
                 solved = state;
@@ -34,6 +34,7 @@ namespace SISE_zad1
                 //Console.WriteLine(state.Depth + " - " + ToSolution(state));
                 return;
             }
+            if (solved != null) return;
             //Console.WriteLine(Environment.NewLine + (state.Depth) + " - " + ToSolution(state));
             //Console.WriteLine(state);
             State newState;
@@ -46,6 +47,8 @@ namespace SISE_zad1
                         if (newState != null && !Closed.Contains(newState.ToString()))
                         {
                             openedStates++;
+                            Closed.Add(state.ToString());
+
                             dfsid(newState, Order);
                             if (solved != null) return;
                             //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
@@ -56,6 +59,8 @@ namespace SISE_zad1
                         if (newState != null && !Closed.Contains(newState.ToString()))
                         {
                             openedStates++;
+                            Closed.Add(state.ToString());
+
                             dfsid(newState, Order);
                             if (solved != null) return;
                             //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
@@ -66,6 +71,8 @@ namespace SISE_zad1
                         if (newState != null && !Closed.Contains(newState.ToString()))
                         {
                             openedStates++;
+                            Closed.Add(state.ToString());
+
                             dfsid(newState, Order);
                             if (solved != null) return;
                             //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
@@ -76,6 +83,8 @@ namespace SISE_zad1
                         if (newState != null && !Closed.Contains(newState.ToString()))
                         {
                             openedStates++;
+                            Closed.Add(state.ToString());
+
                             dfsid(newState, Order);
                             if (solved != null) return;
                             //Console.WriteLine(newState.Depth + " - " + ToSolution(state));
