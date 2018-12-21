@@ -122,6 +122,18 @@ namespace SISE_zad1
             return res.ToString();
         }
 
+        public override int GetHashCode()
+        {
+            int res = 0, 
+                top = Board.Height * Board.Width - 1;
+            for (int i = 0; i < top; i++)
+            {
+                res *= 31;
+                res += ByteState[i];
+            }
+            return res;
+        }
+
     }
 
 }

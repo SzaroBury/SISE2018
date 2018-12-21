@@ -141,10 +141,5 @@ namespace SISE_zad1
             if (l < r) return -1;
             return 0;
         }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

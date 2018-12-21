@@ -12,7 +12,7 @@ namespace SISE_zad1
         public TimeSpan time;
         public int openedStates = 0;
         private List<State> states;
-        public HashSet<string> Closed = new HashSet<string>();
+        public HashSet<State> Closed = new HashSet<State>();
         private Queue<State> Opened = new Queue<State>();
         public int Depth = 0;
         public static int MaxDepth = 20;
@@ -44,10 +44,10 @@ namespace SISE_zad1
                 {
                     case 'U':
                         newState = State.Up(state);
-                        if (newState != null && !Closed.Contains(newState.ToString()))
+                        if (newState != null && !Closed.Contains(newState))
                         {
                             openedStates++;
-                            Closed.Add(state.ToString());
+                            Closed.Add(state);
 
                             dfsid(newState, Order);
                             if (solved != null) return;
@@ -56,10 +56,10 @@ namespace SISE_zad1
                         break;
                     case 'D':
                         newState = State.Down(state);
-                        if (newState != null && !Closed.Contains(newState.ToString()))
+                        if (newState != null && !Closed.Contains(newState))
                         {
                             openedStates++;
-                            Closed.Add(state.ToString());
+                            Closed.Add(state);
 
                             dfsid(newState, Order);
                             if (solved != null) return;
@@ -68,10 +68,10 @@ namespace SISE_zad1
                         break;
                     case 'L':
                         newState = State.Left(state);
-                        if (newState != null && !Closed.Contains(newState.ToString()))
+                        if (newState != null && !Closed.Contains(newState))
                         {
                             openedStates++;
-                            Closed.Add(state.ToString());
+                            Closed.Add(state);
 
                             dfsid(newState, Order);
                             if (solved != null) return;
@@ -80,10 +80,10 @@ namespace SISE_zad1
                         break;
                     case 'R':
                         newState = State.Right(state);
-                        if (newState != null && !Closed.Contains(newState.ToString()))
+                        if (newState != null && !Closed.Contains(newState))
                         {
                             openedStates++;
-                            Closed.Add(state.ToString());
+                            Closed.Add(state);
 
                             dfsid(newState, Order);
                             if (solved != null) return;
@@ -126,7 +126,7 @@ namespace SISE_zad1
         void iteracyjnePoglebienie(State s, string order)
         {
             Closed.Clear();
-            Closed.Add(s.ToString());
+            Closed.Add(s);
             for (int i = 1; i <= MaxDepth; i++)
             {
                 s.Depth = i;
