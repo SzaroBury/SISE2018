@@ -133,10 +133,10 @@ namespace SISE_zad1
         }
         #endregion
 
-        public int CompareTo(AstarState stan)
+        public int CompareTo(AstarState state)
         {
             int l = f(), 
-                r = stan.f();
+                r = state.f();
             if (l > r) return 1;
             if (l < r) return -1;
             return 0;

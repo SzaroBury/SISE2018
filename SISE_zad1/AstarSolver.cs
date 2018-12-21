@@ -14,7 +14,7 @@ namespace SISE_zad1
         public TimeSpan time;
         private List<AstarState> states;
         public int openedStates = 1;
-        IntervalHeap<AstarState> Open = new IntervalHeap<AstarState>();
+        private IntervalHeap<AstarState> Open = new IntervalHeap<AstarState>();
         public C5.HashSet<string> Closed = new C5.HashSet<string>();
         public int Depth = 0;
 
@@ -35,24 +35,24 @@ namespace SISE_zad1
                 if (oldState.isSolved())
                 {
                     goal = oldState;
-                    //Console.WriteLine("!!!SOLVED!!!");
-                    //Console.WriteLine(ToSolution(goal));
-                    //Console.WriteLine(goal);
+                    Console.WriteLine("!!!SOLVED!!!");
+                    Console.WriteLine(ToSolution(goal));
+                    Console.WriteLine(goal);
                     break;
                 }
 
                 if (Closed.Contains(oldState.ToString())) continue;
 
                 Closed.Add(oldState.ToString());
-                //Console.WriteLine(oldState);
-                //Console.WriteLine(ToSolution(oldState));
+                Console.WriteLine(oldState);
+                Console.WriteLine(ToSolution(oldState));
 
                 newState = AstarState.Up(oldState);
                 if (newState != null)
                 {
                     if (!Closed.Contains(newState.ToString()))
                     {
-                        //Console.Write("U");
+                        Console.Write("U");
                         Open.Add(newState);
                         openedStates++;
                     }
@@ -63,7 +63,7 @@ namespace SISE_zad1
                 {
                     if (!Closed.Contains(newState.ToString()))
                     {
-                        //Console.Write("D");
+                        Console.Write("D");
                         Open.Add(newState);
                         openedStates++;
                     }
@@ -74,7 +74,7 @@ namespace SISE_zad1
                 {
                     if (!Closed.Contains(newState.ToString()))
                     {
-                        //Console.Write("L");
+                        Console.Write("L");
                         Open.Add(newState);
                         openedStates++;
                     }
@@ -85,12 +85,12 @@ namespace SISE_zad1
                 {
                     if (!Closed.Contains(newState.ToString()))
                     {
-                        //Console.Write("R");
+                        Console.Write("R");
                         Open.Add(newState);
                         openedStates++;
                     }
                 }
-                //Console.WriteLine();
+                Console.WriteLine();
             }
         }
 
@@ -122,9 +122,9 @@ namespace SISE_zad1
                 current = parent;
             }
             
-            //Console.WriteLine("\nOpened nodes: " + openedStates);
-            //Console.WriteLine("Closed nodes: " + Closed.Count);
-            //Console.WriteLine("Reached depth: " + Depth);
+            Console.WriteLine("\nOpened nodes: " + openedStates);
+            Console.WriteLine("Closed nodes: " + Closed.Count);
+            Console.WriteLine("Reached depth: " + Depth);
             return Reverse(result.ToString());
         }
 

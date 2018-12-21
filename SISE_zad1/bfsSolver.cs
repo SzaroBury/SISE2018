@@ -11,7 +11,7 @@ namespace SISE_zad1
         private State solved;
         public TimeSpan time;
         private List<State> states;
-        public int openedStates = 0;
+        public int openedStates = 1;
         public HashSet<string> Closed = new HashSet<string>();
         private Queue<State> Opened = new Queue<State>();
         public int Depth = 0;
@@ -35,13 +35,13 @@ namespace SISE_zad1
                 if (state.isSolved())
                 {
                     solved = state;
-                    //Console.WriteLine(Environment.NewLine + "!!!SOLVED!!!" + Environment.NewLine + state);
-                    //Console.WriteLine(Depth + " - " + ToSolution(state));
+                    Console.WriteLine(Environment.NewLine + "!!!SOLVED!!!" + Environment.NewLine + state);
+                    Console.WriteLine(Depth + " - " + ToSolution(state));
                     break;
                 }
-                //Console.WriteLine(Environment.NewLine + state);
-                //string pom2 = ToSolution(state);
-                //Console.WriteLine(Depth + " - " + pom2);
+                Console.WriteLine(Environment.NewLine + state);
+                string pom2 = ToSolution(state);
+                Console.WriteLine(Depth + " - " + pom2);
                 for (int i = 0; i < order.Length; i++)
                 {
                     switch (order[i])
@@ -50,45 +50,45 @@ namespace SISE_zad1
                             newState = State.Up(state);
                             if (newState != null && !Closed.Contains(newState.ToString()))
                             {
-                                //Console.WriteLine(pom2 + " U");
+                                Console.WriteLine(pom2 + " U");
                                 openedStates++;
                                 Opened.Enqueue(newState);
                             }
-                            //else //Console.WriteLine(pom2 + " U - Null");
+                            else Console.WriteLine(pom2 + " U - Null");
                             break;
                         case 'D':
                             newState = State.Down(state);
                             if (newState != null && !Closed.Contains(newState.ToString()))
                             {
-                                //Console.WriteLine(pom2 + " D");
+                                Console.WriteLine(pom2 + " D");
                                 openedStates++;
                                 Opened.Enqueue(newState);
                             }
-                            //else //Console.WriteLine(pom2 + " D - Null");
+                            else Console.WriteLine(pom2 + " D - Null");
                             break;
                         case 'L':
                             newState = State.Left(state);
                             if (newState != null && !Closed.Contains(newState.ToString()))
                             {
-                                //Console.WriteLine(pom2 + " L");
+                                Console.WriteLine(pom2 + " L");
                                 openedStates++;
                                 Opened.Enqueue(newState);
                             }
-                            //else //Console.WriteLine(pom2 + " L - Null");
+                            else Console.WriteLine(pom2 + " L - Null");
                             break;
                         case 'R':
                             newState = State.Right(state);
                             if (newState != null && !Closed.Contains(newState.ToString()))
                             {
-                                //Console.WriteLine(pom2 + " R");
+                                Console.WriteLine(pom2 + " R");
                                 openedStates++;
                                 Opened.Enqueue(newState);
                             }
-                            //else //Console.WriteLine(pom2 + " R - Null");
+                            else Console.WriteLine(pom2 + " R - Null");
                             break;
                     }
                 }
-                //Console.WriteLine("-----------------------------------------");
+                Console.WriteLine("-----------------------------------------");
             }
         }
 
@@ -119,9 +119,9 @@ namespace SISE_zad1
                 result.Append(current.Translation);
                 current = parent;
             }
-            //Console.WriteLine("\nOpened nodes: " + openedStates);
-            //Console.WriteLine("Closed Nodes: " + Closed.Count);
-            //Console.WriteLine("Max depth: " + Depth);
+            Console.WriteLine("\nOpened nodes: " + openedStates);
+            Console.WriteLine("Closed Nodes: " + Closed.Count);
+            Console.WriteLine("Max depth: " + Depth);
             return Reverse(result.ToString());
         }
 
