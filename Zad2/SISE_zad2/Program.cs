@@ -41,7 +41,7 @@ namespace SISE_zad2
             for (int i = 0; i < MaxEpochs; i++)
             {
                 List<int> indexes = GetSequenceOfNumbers(trainingData.Count);
-                if (getInfoInConsole) { Console.WriteLine("Epoch: " + i + "/" + MaxEpochs); }
+                if (getInfoInConsole) { Console.WriteLine("Epoch: " + (i + 1) + "/" + MaxEpochs); }
                 for (int j = 0; j < trainingData.Count; j++)
                 {
                     int index = random.Next(0, indexes.Count);
@@ -89,7 +89,7 @@ namespace SISE_zad2
                         outputLayer[0].Inputs = outputLayerInputs;
 
                         TestingMSE += Math.Pow(testData[j].Value - outputLayer[0].Output(), 2);
-                        if (getInfoInConsole && i == 1000)
+                        if (getInfoInConsole && i == MaxEpochs-1)
                         {
                             Console.WriteLine("x: " + testData[j].Key + Environment.NewLine +
                                               "square root of x: " + testData[j].Value.ToString() + Environment.NewLine +
@@ -105,6 +105,7 @@ namespace SISE_zad2
                                           "mins: " + mins[iterator] + Environment.NewLine);
                         //Console.ReadKey();
                     }
+
                     if (TestingMSE / testData.Count < mins[iterator])
                         mins[iterator] = TestingMSE / testData.Count;
 
@@ -116,8 +117,6 @@ namespace SISE_zad2
                     iterator++;
                 }
                 stringBuilder.Append("\n");
-
-
             }
 
             string errorsFName = hiddenLayer.Length + "n_" + Neuron.LearningFactor + "lf_" + Neuron.MomentumFactor + "mf_errors.txt";
@@ -128,8 +127,9 @@ namespace SISE_zad2
 
             using (StreamWriter streamWriter = new StreamWriter(minFName))
                 for(int i = 0; i < mins.Count; i++)
-                    streamWriter.Write(mins[i] + "\t");      
+                    streamWriter.Write(mins[i] + "\t");
             #endregion
+            Console.ReadKey();
         }
 
         public static double SigmaDerivative(double x)
