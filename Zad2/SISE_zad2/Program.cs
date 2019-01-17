@@ -9,13 +9,13 @@ namespace SISE_zad2
 {
     class Program
     {
-        public static int MaxEpochs = 100000;
-        public static int neuronsInHiddenLayer = 4;
+        public static int MaxEpochs = 1000;
+        public static int neuronsInHiddenLayer = 8;
         public static float sigmoidSteepnessFactor = 1f;
-        public static bool getInfoInConsole = false;
+        public static bool getInfoInConsole = true;
         public static List<KeyValuePair<int, double>> trainingData = new List<KeyValuePair<int, double>>();
         public static List<List<KeyValuePair<int, double>>> testingData = new List<List<KeyValuePair<int, double>>>();
-        public static List<double> mins = new List<double>() { int.MaxValue, int.MaxValue, int.MaxValue };
+        public static List<double> mins = new List<double>() { int.MaxValue, int.MaxValue, int.MaxValue } ;
 
         static void Main(string[] args)
         {
@@ -35,15 +35,15 @@ namespace SISE_zad2
             }
             outputLayer[0] = new Neuron(neuronsInHiddenLayer, 2);
             outputLayer[0].RandomValues();
-            
+
             #region Training
+            if (getInfoInConsole) { Console.WriteLine("Training started..."); Console.ReadKey(); }
             for (int i = 0; i < MaxEpochs; i++)
             {
                 List<int> indexes = GetSequenceOfNumbers(trainingData.Count);
-
+                if (getInfoInConsole) { Console.WriteLine("Epoch: " + i + "/" + MaxEpochs); }
                 for (int j = 0; j < trainingData.Count; j++)
                 {
-                    if (getInfoInConsole) { Console.WriteLine("Training " + j); Console.ReadKey(); }
                     int index = random.Next(0, indexes.Count);
                     indexes.RemoveAt(index);
 
@@ -62,7 +62,6 @@ namespace SISE_zad2
                     diffrence = trainingData[index].Value - outputLayer[0].Output();
                     
                     outputLayer[0].Error = diffrence;
-                    if (getInfoInConsole) { Console.WriteLine("Output layer error: " + outputLayer[0].Error); Console.ReadKey(); }
 
                     for (int k = 0; k < hiddenLayer.Length; k++)
                     {
@@ -90,6 +89,21 @@ namespace SISE_zad2
                         outputLayer[0].Inputs = outputLayerInputs;
 
                         TestingMSE += Math.Pow(testData[j].Value - outputLayer[0].Output(), 2);
+                        if (getInfoInConsole && i == 1000)
+                        {
+                            Console.WriteLine("x: " + testData[j].Key + Environment.NewLine +
+                                              "square root of x: " + testData[j].Value.ToString() + Environment.NewLine +
+                                              "From network: " + outputLayer[0].Output() + Environment.NewLine +
+                                              "MSE: " + TestingMSE);
+                            Console.ReadKey();
+                        }
+                    }
+                    if (getInfoInConsole)
+                    {
+                        Console.WriteLine("TestingMSE: " + TestingMSE + Environment.NewLine +
+                                          "testData.Count: " + testData.Count + Environment.NewLine +
+                                          "mins: " + mins[iterator] + Environment.NewLine);
+                        //Console.ReadKey();
                     }
                     if (TestingMSE / testData.Count < mins[iterator])
                         mins[iterator] = TestingMSE / testData.Count;
@@ -102,6 +116,8 @@ namespace SISE_zad2
                     iterator++;
                 }
                 stringBuilder.Append("\n");
+
+
             }
 
             string errorsFName = hiddenLayer.Length + "n_" + Neuron.LearningFactor + "lf_" + Neuron.MomentumFactor + "mf_errors.txt";
@@ -111,8 +127,8 @@ namespace SISE_zad2
                 streamWriter.Write(stringBuilder.ToString());
 
             using (StreamWriter streamWriter = new StreamWriter(minFName))
-                for (int j = 0; j < mins.Count; j++)
-                    streamWriter.Write(mins[j] + "\t");
+                for(int i = 0; i < mins.Count; i++)
+                    streamWriter.Write(mins[i] + "\t");      
             #endregion
         }
 
